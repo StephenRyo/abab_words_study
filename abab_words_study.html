@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N1 叠词集训 ABAB型</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+  :root {
+    --ink:      #1a1a2e;
+    --muted:    #5a5a7a;
+    --dim:      #9090aa;
+    --paper:    #f7f5f0;
+    --cream:    #ede9e0;
+    --accent:   #c0392b;
+    --accent2:  #2980b9;
+    --rule:     #d4cfc4;
+    --card-bg:  #ffffff;
+    --shadow:   0 2px 12px rgba(26,26,46,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 36px 40px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .site-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #fff;
+  }
+  .site-sub {
+    font-size: 0.82rem;
+    color: #aab;
+    letter-spacing: 0.12em;
+  }
+  .count-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    max-width: 960px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-btn {
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: inherit;
+    transition: all 0.18s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+  #search {
+    padding: 7px 14px 7px 36px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+    width: 200px;
+    transition: border-color 0.18s;
+  }
+  #search:focus { border-color: var(--accent2); }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dim);
+    font-size: 13px;
+    pointer-events: none;
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    max-width: 960px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+  }
+  .progress-label {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    max-width: 960px;
+    margin: 28px auto 60px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--rule);
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26,26,46,0.11);
+  }
+  .card.mastered {
+    border-color: #27ae60;
+    background: #f0faf4;
+  }
+  .card.marked {
+    border-color: #f39c12;
+    background: #fffdf0;
+  }
+
+  .card-head {
+    padding: 16px 18px 10px;
+    border-bottom: 1px solid var(--cream);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .word-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+  .reading {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+  }
+  .badges {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .badge-type {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--cream);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .badge-src {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    color: #fff;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .src-1170 { background: var(--accent2); }
+  .src-2600 { background: #8e44ad; }
+  .src-both { background: #16a085; }
+
+  .card-body {
+    padding: 12px 18px 14px;
+  }
+  .meaning {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .example-jp {
+    font-size: 0.84rem;
+    color: var(--ink);
+    line-height: 1.65;
+    margin-bottom: 4px;
+  }
+  .example-cn {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+  .card.show-cn .example-cn { display: block; }
+
+  /* ── Card footer ── */
+  .card-foot {
+    padding: 8px 18px 10px;
+    border-top: 1px solid var(--cream);
+    display: flex;
+    gap: 6px;
+  }
+  .btn-sm {
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1.2px solid var(--rule);
+    background: transparent;
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm.on-master { border-color: #27ae60; color: #27ae60; background: #f0faf4; }
+  .btn-sm.on-mark   { border-color: #f39c12; color: #f39c12; background: #fffdf0; }
+  .btn-cn { margin-left: auto; }
+
+  /* ── Highlight match ── */
+  mark { background: #fff3a0; color: inherit; border-radius: 2px; }
+
+  /* ── Empty state ── */
+  .empty {
+    grid-column: 1/-1;
+    text-align: center;
+    color: var(--dim);
+    padding: 60px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--dim);
+    font-size: 0.78rem;
+    border-top: 1px solid var(--rule);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="site-title">叠词集训 ── ABAB型假名词</div>
+      <div class="site-sub">N1 擬態語・擬音語 / 副詞集中学習</div>
+    </div>
+    <div class="count-badge" id="countBadge">33 語</div>
+  </div>
+</header>
+
+<div class="controls">
+  <button class="filter-btn active" data-filter="all">すべて</button>
+  <button class="filter-btn" data-filter="marked">△ 要复习</button>
+  <button class="filter-btn" data-filter="mastered">✓ 已掌握</button>
+  <button class="filter-btn" data-filter="unmarked">未标记</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text" placeholder="搜索词语或含义…">
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progressLabel">已掌握：0 / 33</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>N1-1170 × N1-2600 叠词摘录 ／ 点击「译文」显示中文例句</footer>
+
+<script>
+const WORDS = [
+  {word:"いそいそ(と)",reading:"いそいそ(と)",type:"副",meaning:"兴冲冲地；高高兴兴地",ex_jp:"今日はデートらしく、姉はおしゃれをしていそいそと出かけて行った。",ex_cn:"今天好像是去约会，姐姐精心打扮后兴冲冲地出门了。",src:"N1-1170"},
+  {word:"一歩一歩",reading:"いっぽいっぽ",type:"副",meaning:"一步一步",ex_jp:"一歩一歩着実に前進することが、大きな目標への唯一の道だと信じている。",ex_cn:"相信一步一步踏实前进，是通向远大目标的唯一道路。",src:"N1-2600"},
+  {word:"嫌々",reading:"いやいや",type:"副",meaning:"勉强地；不情愿地",ex_jp:"子供の頃は嫌々始めたスポーツが、今では生きがいになっている。",ex_cn:"小时候不情愿开始的运动，如今已成为人生的意义所在。",src:"N1-2600"},
+  {word:"各々",reading:"おのおの",type:"副",meaning:"各自；各个",ex_jp:"人にはおのおの（の）役割がある。",ex_cn:"每个人都有各自的角色。",src:"N1-1170"},
+  {word:"折々",reading:"おりおり",type:"副",meaning:"各时节；时时，不时",ex_jp:"折々に咲く花が、庭に彩りを添えている。",ex_cn:"各时节盛开的花朵，为庭院增添了色彩。",src:"N1-2600"},
+  {word:"おろおろ(と)",reading:"おろおろ(と)",type:"副",meaning:"慌乱；不知所措",ex_jp:"母が倒れたとき、私はおろおろするばかりで、何もできなかった。",ex_cn:"母亲倒下时，我只是慌乱不已，什么都做不了。",src:"N1-1170"},
+  {word:"くすくす（と）",reading:"くすくす（と）",type:"副",meaning:"咯咯地（笑）",ex_jp:"先生の話が面白すぎて、生徒たちはくすくすと笑いをこらえられなかった。",ex_cn:"老师讲的话太有趣，学生们忍不住咯咯地笑了起来。",src:"N1-2600"},
+  {word:"ぐずぐず(と)",reading:"ぐずぐず(と)",type:"副",meaning:"磨磨蹭蹭；拖延",ex_jp:"寒い日は布団の中でぐずぐずしていて、なかなか起きられない。",ex_cn:"寒冷的日子在被窝里磨磨蹭蹭，迟迟起不来床。",src:"N1-1170"},
+  {word:"ぐんぐん(と)",reading:"ぐんぐん(と)",type:"副",meaning:"飞快地；急速地",ex_jp:"1位の選手が2位の選手をぐんぐん引き離した。",ex_cn:"第一名的选手把第二名迅速甩在了身后。",src:"N1-1170"},
+  {word:"こつこつ（と）",reading:"こつこつ（と）",type:"副",meaning:"踏踏实实；持续努力",ex_jp:"こつこつと練習を続けることが、どんな趣味においても上達の近道だ。",ex_cn:"踏踏实实地持续练习，是任何兴趣爱好进步的捷径。",src:"N1-2600"},
+  {word:"ごたごた(と)",reading:"ごたごた(と)",type:"副",meaning:"乱糟糟；嘈嘈杂杂",ex_jp:"部屋には多くのものがごたごたと置いてあった。",ex_cn:"房间里乱糟糟地放着很多东西。",src:"N1-1170"},
+  {word:"ごちゃごちゃ(と)",reading:"ごちゃごちゃ(と)",type:"副",meaning:"乱七八糟；混乱",ex_jp:"私は整理整頓が苦手で、机の上はいつもごちゃごちゃしている。",ex_cn:"我不擅长整理，桌上总是乱七八糟的。",src:"N1-1170"},
+  {word:"渋々",reading:"しぶしぶ",type:"副",meaning:"勉强地；不情愿地",ex_jp:"使い慣れたシステムが廃止されることになり、渋々新システムに移行した。",ex_cn:"习惯使用的系统被废止，不情愿地迁移到了新系统。",src:"N1-2600"},
+  {word:"収集（する）",reading:"しゅうしゅう",type:"名・動",meaning:"收集；收拢",ex_jp:"家じゅうのゴミを収集して、分別してから捨てるのが週末の習慣だ。",ex_cn:"把家里各处的垃圾收集起来，分类后扔掉是周末的习惯。",src:"N1-2600"},
+  {word:"生成（する）",reading:"せいせい",type:"名・動",meaning:"生成；产生",ex_jp:"AIが文章や画像を生成する技術は、急速に発展している。",ex_cn:"AI生成文章和图像的技术正在迅速发展。",src:"N1-2600"},
+  {word:"そこそこ",reading:"そこそこ",type:"副",meaning:"差不多；马马虎虎；还算",ex_jp:"彼女はそこそこできるが、研究者向きではない。",ex_cn:"她能力还算不错，但不适合做研究人员。",src:"N1-1170"},
+  {word:"そもそも",reading:"そもそも",type:"副",meaning:"本来；原本；究竟",ex_jp:"そもそも、この計画が実現可能かどうかを検討すべきだった。",ex_cn:"本来就应该探讨这个计划是否可行。",src:"N1-2600"},
+  {word:"だらだら(と)",reading:"だらだら(と)",type:"副",meaning:"拖拖拉拉；懒散",ex_jp:"夏休みは特に何もせず、だらだら過ごしてしまった。",ex_cn:"暑假什么都没做，懒散地过去了。",src:"N1-1170"},
+  {word:"近々",reading:"ちかちか",type:"副",meaning:"近期；不久",ex_jp:"近々引っ越す予定だ。",ex_cn:"近期打算搬家。",src:"N1-1170"},
+  {word:"着々と",reading:"ちゃくちゃく(と)",type:"副",meaning:"一步一步地；稳步地",ex_jp:"工事は予定通り、着々と進んでいる。",ex_cn:"工程按计划稳步推进。",src:"N1-1170"},
+  {word:"ちょくちょく",reading:"ちょくちょく",type:"副",meaning:"时常；三天两头",ex_jp:"白井さんとはちょくちょく飲みに行く仲だ。",ex_cn:"我和白井先生是那种三天两头一起去喝酒的交情。",src:"N1-1170"},
+  {word:"にやにや",reading:"にやにや",type:"副",meaning:"嬉皮笑脸地；暗自偷笑地",ex_jp:"何かいいことがあったのか、彼はにやにやしながら歩いていた。",ex_cn:"不知道是不是有什么好事，他嬉皮笑脸地走着。",src:"N1-2600"},
+  {word:"はらはら（と）",reading:"はらはら（と）",type:"副",meaning:"提心吊胆地；惊险地",ex_jp:"最後まではらはらする展開が続いたが、辛くも逆転勝利をおさめた。",ex_cn:"直到最后都是惊险刺激的进展，但勉强取得了逆转胜利。",src:"N1-2600"},
+  {word:"ひやひや（と）",reading:"ひやひや（と）",type:"副",meaning:"提心吊胆地；捏一把汗地",ex_jp:"子どもが高いところに登るのを見て、ひやひやした。",ex_cn:"看着孩子爬到高处，我捏了一把汗。",src:"N1-2600"},
+  {word:"びくびく（と）",reading:"びくびく（と）",type:"副",meaning:"战战兢兢地；提心吊胆地",ex_jp:"セキュリティへの不安から、個人情報の入力をびくびくしながら行った。",ex_cn:"因为对安全性的不安，战战兢兢地输入了个人信息。",src:"N1-2600"},
+  {word:"ぶつぶつ(と)",reading:"ぶつぶつ(と)",type:"副",meaning:"嘟嘟囔囔；发牢骚",ex_jp:"彼は何やらぶつぶつとつぶやいている。",ex_cn:"他嘟嘟囔囔地嘀咕着什么。",src:"N1-1170"},
+  {word:"べたべた(と)",reading:"べたべた(と)",type:"副",meaning:"黏糊糊地；到处贴",ex_jp:"子供は口の周りをチョコレートでべたべたにしていた。",ex_cn:"孩子嘴巴周围沾满了巧克力，黏糊糊的。",src:"N1-1170"},
+  {word:"ぼつぼつ(と)",reading:"ぼつぼつ(と)",type:"副",meaning:"慢慢地；差不多该",ex_jp:"ぼつぼつ田中さんが来る頃だ。",ex_cn:"差不多该是田中先生来的时候了。",src:"N1-1170"},
+  {word:"まごまご",reading:"まごまご",type:"副",meaning:"不知所措；慌乱",ex_jp:"機械の操作方法がわからず、おばあさんがまごまごしている。",ex_cn:"不知道机器操作方法，老奶奶手足无措。",src:"N1-1170"},
+  {word:"めいめい",reading:"めいめい",type:"名",meaning:"各自；每人",ex_jp:"チケットはめいめい（で）お持ちください。",ex_cn:"票请各自携带。",src:"N1-1170"},
+  {word:"めきめき（と）",reading:"めきめき（と）",type:"副",meaning:"显著地；明显地",ex_jp:"新加入した選手がめきめきと実力をつけ、チームの主力に成長した。",ex_cn:"新加入的选手明显地增强了实力，成长为队伍的主力。",src:"N1-2600"},
+  {word:"やすやす（と）",reading:"やすやす（と）",type:"副",meaning:"轻易地；毫不费力地",ex_jp:"その選手は難しいシュートをやすやすと決め、観衆を驚かせた。",ex_cn:"那名选手轻易地射进了难度极高的球，令观众惊叹。",src:"N1-2600"},
+  {word:"悠々(と)",reading:"ゆうゆう(と)",type:"副",meaning:"悠闲地；从容地",ex_jp:"大きな鳥がゆうゆうと空を飛んでいる。",ex_cn:"大鸟悠闲地在空中飞翔。",src:"N1-1170"}
+];
+
+const TOTAL = WORDS.length;
+let states = JSON.parse(localStorage.getItem('abab_states') || '{}');
+let showCn = JSON.parse(localStorage.getItem('abab_cn') || '{}');
+let currentFilter = 'all';
+let searchQ = '';
+
+function save() {
+  localStorage.setItem('abab_states', JSON.stringify(states));
+  localStorage.setItem('abab_cn', JSON.stringify(showCn));
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function srcClass(src) {
+  if (src === 'N1-1170') return 'src-1170';
+  if (src === 'N1-2600') return 'src-2600';
+  return 'src-both';
+}
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  const q = searchQ.trim().toLowerCase();
+  let visible = 0;
+  let html = '';
+
+  WORDS.forEach((w, i) => {
+    const st = states[i] || 'none';
+    const cn = showCn[i] || false;
+
+    // Filter
+    if (currentFilter === 'marked'   && st !== 'marked')   return;
+    if (currentFilter === 'mastered' && st !== 'mastered') return;
+    if (currentFilter === 'unmarked' && st !== 'none')     return;
+
+    // Search
+    const haystack = (w.word + w.reading + w.meaning + w.ex_jp + w.ex_cn).toLowerCase();
+    if (q && !haystack.includes(q)) return;
+
+    visible++;
+    const masterCls = st === 'mastered' ? ' mastered' : '';
+    const markCls   = st === 'marked'   ? ' marked'   : '';
+    const cnCls     = cn ? ' show-cn' : '';
+    const masterBtnCls = st === 'mastered' ? ' on-master' : '';
+    const markBtnCls   = st === 'marked'   ? ' on-mark'   : '';
+
+    const wordH    = highlight(w.word, q);
+    const meaningH = highlight(w.meaning, q);
+    const exJpH    = highlight(w.ex_jp, q);
+
+    html += `<div class="card${masterCls}${markCls}${cnCls}" data-idx="${i}">
+  <div class="card-head">
+    <div>
+      <div class="word-jp">${wordH}</div>
+      <div class="reading">${w.reading !== w.word ? w.reading : ''}</div>
+    </div>
+    <div class="badges">
+      <span class="badge-type">${w.type}</span>
+      <span class="badge-src ${srcClass(w.src)}">${w.src}</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meaning">${meaningH}</div>
+    <div class="example-jp">${exJpH}</div>
+    <div class="example-cn">${w.ex_cn}</div>
+  </div>
+  <div class="card-foot">
+    <button class="btn-sm btn-master${masterBtnCls}" onclick="toggleMaster(${i},event)">
+      ${st === 'mastered' ? '✓ 已掌握' : '○ 掌握'}
+    </button>
+    <button class="btn-sm btn-mark${markBtnCls}" onclick="toggleMark(${i},event)">
+      ${st === 'marked' ? '△ 标记中' : '△ 要复习'}
+    </button>
+    <button class="btn-sm btn-cn" onclick="toggleCn(${i},event)">
+      ${cn ? '隐藏译文' : '译文'}
+    </button>
+  </div>
+</div>`;
+  });
+
+  if (!visible) {
+    html = '<div class="empty">没有符合条件的词语</div>';
+  }
+  grid.innerHTML = html;
+
+  // Update count
+  document.getElementById('countBadge').textContent = visible + ' 語';
+  updateProgress();
+}
+
+function toggleMaster(i, e) {
+  e.stopPropagation();
+  states[i] = (states[i] === 'mastered') ? 'none' : 'mastered';
+  save(); renderCards();
+}
+function toggleMark(i, e) {
+  e.stopPropagation();
+  states[i] = (states[i] === 'marked') ? 'none' : 'marked';
+  save(); renderCards();
+}
+function toggleCn(i, e) {
+  e.stopPropagation();
+  showCn[i] = !showCn[i];
+  save(); renderCards();
+}
+
+function updateProgress() {
+  const mastered = Object.values(states).filter(v => v === 'mastered').length;
+  const pct = Math.round(mastered / TOTAL * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    `已掌握：${mastered} / ${TOTAL}（${pct}%）`;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+// Search
+document.getElementById('search').addEventListener('input', e => {
+  searchQ = e.target.value;
+  renderCards();
+});
+
+renderCards();
+</script>
+</body>
+</html>
