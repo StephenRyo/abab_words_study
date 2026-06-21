@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N1 促音词集训 っ型</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+  :root {
+    --ink:      #1a1a2e;
+    --muted:    #5a5a7a;
+    --dim:      #9090aa;
+    --paper:    #f7f5f0;
+    --cream:    #ede9e0;
+    --accent:   #2471a3;
+    --accent2:  #c0392b;
+    --rule:     #d4cfc4;
+    --card-bg:  #ffffff;
+    --shadow:   0 2px 12px rgba(26,26,46,0.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 32px 40px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .site-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .site-sub { font-size: 0.8rem; color: #aab; letter-spacing: 0.1em; margin-top: 2px; }
+  .count-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .controls {
+    max-width: 960px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: inherit;
+    transition: all 0.18s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .search-wrap { margin-left: auto; position: relative; }
+  #search {
+    padding: 7px 14px 7px 34px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    font-family: inherit;
+    font-size: 0.83rem;
+    color: var(--ink);
+    outline: none;
+    width: 200px;
+    transition: border-color 0.18s;
+  }
+  #search:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--dim); font-size: 12px; pointer-events: none; }
+
+  .progress-wrap { max-width: 960px; margin: 16px auto 0; padding: 0 20px; }
+  .progress-label { font-size: 0.76rem; color: var(--dim); margin-bottom: 5px; letter-spacing: 0.06em; }
+  .progress-track { height: 4px; background: var(--cream); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  .grid {
+    max-width: 960px;
+    margin: 24px auto 60px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--rule);
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: default;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(26,26,46,0.11); }
+  .card.mastered { border-color: #27ae60; background: #f0faf4; }
+  .card.marked   { border-color: #f39c12; background: #fffdf0; }
+
+  /* sokuon highlight in word */
+  .sokuon-mark {
+    color: var(--accent2);
+    font-weight: 900;
+  }
+
+  .card-head {
+    padding: 16px 18px 10px;
+    border-bottom: 1px solid var(--cream);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .word-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+  .reading { font-size: 0.77rem; color: var(--dim); margin-top: 3px; }
+  .badges { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .badge-type {
+    font-size: 0.69rem; padding: 2px 8px; border-radius: 10px;
+    background: var(--accent); color: #fff; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .badge-src {
+    font-size: 0.67rem; padding: 2px 7px; border-radius: 10px;
+    color: #fff; white-space: nowrap;
+  }
+  .src-1170 { background: var(--accent2); }
+  .src-2600 { background: #8e44ad; }
+
+  .card-body { padding: 11px 18px 13px; }
+  .meaning { font-size: 0.98rem; font-weight: 500; color: var(--accent2); margin-bottom: 9px; line-height: 1.4; }
+  .example-jp { font-size: 0.83rem; color: var(--ink); line-height: 1.7; margin-bottom: 3px; }
+  .word-hl { color: var(--accent2); font-weight: 700; }
+  .example-cn { font-size: 0.79rem; color: var(--muted); line-height: 1.65; display: none; }
+  .card.show-cn .example-cn { display: block; }
+
+  .card-foot {
+    padding: 8px 18px 10px;
+    border-top: 1px solid var(--cream);
+    display: flex;
+    gap: 6px;
+  }
+  .btn-sm {
+    padding: 3px 10px; border-radius: 12px; border: 1.2px solid var(--rule);
+    background: transparent; font-size: 0.7rem; color: var(--muted);
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+  }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm.on-master { border-color: #27ae60; color: #27ae60; background: #f0faf4; }
+  .btn-sm.on-mark   { border-color: #f39c12; color: #f39c12; background: #fffdf0; }
+  .btn-cn { margin-left: auto; }
+
+  mark { background: #fff3a0; color: inherit; border-radius: 2px; }
+  .empty { grid-column: 1/-1; text-align: center; color: var(--dim); padding: 60px 20px; font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 22px; color: var(--dim); font-size: 0.77rem; border-top: 1px solid var(--rule); letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="site-title">促音词集训 ── <span style="color:#e8a0a0">っ</span> 型假名词</div>
+      <div class="site-sub">N1 副詞・形容詞・動詞 含促音の純仮名語</div>
+    </div>
+    <div class="count-badge" id="countBadge">38 語</div>
+  </div>
+</header>
+
+<div class="controls">
+  <button class="filter-btn active" data-filter="all">すべて</button>
+  <button class="filter-btn" data-filter="marked">△ 要复习</button>
+  <button class="filter-btn" data-filter="mastered">✓ 已掌握</button>
+  <button class="filter-btn" data-filter="unmarked">未标记</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text" placeholder="搜索词语或含义…">
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progressLabel">已掌握：0 / 38</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>N1-1170 × N1-2600 促音词摘录 ／ 点击「译文」显示中文例句 ／ <span style="color:#e05050">っ</span> 以红色标注</footer>
+
+<script>
+const WORDS = [
+  {word:"あっけない",    read:"あっけない",   type:"形",    mean:"太过简单的；令人失望的", src:"N1-1170",
+   ej:"接戦が予想されたが、Aチームはあっけなく負けてしまった。", ec:"原以为会是场苦战，A队却轻易地输了。"},
+  {word:"あっせん（する）",read:"あっせん",    type:"名・動", mean:"斡旋；介绍", src:"N1-2600",
+   ej:"ハローワークのあっせんで就職が決まり、安心して新生活を始められた。", ec:"通过职业介绍所的介绍确定了工作，得以安心地开始了新生活。"},
+  {word:"いたって",      read:"いたって",    type:"副",    mean:"非常；极为", src:"N1-1170",
+   ej:"祖母は80歳を過ぎているが、いたって元気だ。", ec:"祖母已过八十岁，但身体极其健朗。"},
+  {word:"いっそ",        read:"いっそ",      type:"副",    mean:"干脆；索性", src:"N1-1170",
+   ej:"こんなつらい思いをするくらいなら、いっそ別の方法を試してみよう。", ec:"与其遭受这样的痛苦，干脆试试别的方法吧。"},
+  {word:"うっとうしい",   read:"うっとうしい", type:"形",    mean:"令人烦闷的；阴沉的", src:"N1-1170",
+   ej:"梅雨時は気温も湿度も高くてうっとうしい。", ec:"梅雨季气温高湿度大，令人烦闷。"},
+  {word:"うっとり（と）", read:"うっとり",    type:"副",    mean:"陶醉地；出神地", src:"N1-1170",
+   ej:"彼女はうっとりと音楽に聴き入っていた。", ec:"她陶醉地沉浸在音乐中。"},
+  {word:"がっくり（と）", read:"がっくり",    type:"副",    mean:"垂头丧气；大受打击", src:"N1-1170",
+   ej:"1位でゴールしたのに失格と判定され、田中選手はがっくりと膝をついた。", ec:"第一个冲线却被判为失格，田中选手垂头丧气地跪倒在地。"},
+  {word:"がっしり（と）", read:"がっしり",    type:"副",    mean:"健壮地；坚固地", src:"N1-1170",
+   ej:"家具はどれも大きくてがっしりしている。", ec:"家具每件都又大又结实。"},
+  {word:"がっちり（と）", read:"がっちり",    type:"副",    mean:"结实地；牢牢地", src:"N1-1170",
+   ej:"大野さんはスポーツで鍛えただけあって、体ががっちりしている。", ec:"大野先生不愧是靠运动锻炼出来的，体格壮实。"},
+  {word:"きっかり（と）", read:"きっかり",    type:"副",    mean:"整整；刚好（时间）", src:"N1-1170",
+   ej:"高橋さんは約束通り、9時きっかりにやってきた。", ec:"高桥先生如约在9点整到达了。"},
+  {word:"きっちり（と）", read:"きっちり",    type:"副",    mean:"严格地；不差分毫", src:"N1-1170",
+   ej:"調味料をきっちり測って入れる。", ec:"严格地量好调味料再放入。"},
+  {word:"きっぱり（と）", read:"きっぱり",    type:"副",    mean:"断然；明确地", src:"N1-1170",
+   ej:"佐藤さんからの援助の申し出を、きっぱりと断った。", ec:"断然拒绝了佐藤先生提出的援助。"},
+  {word:"ぎょっとする",   read:"ぎょっとする", type:"動",    mean:"吓一跳；惊愕", src:"N1-1170",
+   ej:"夜道で突然声をかけられ、ぎょっとして振り向くと、おまわりさんだった。", ec:"走夜路时突然有人叫我，吓了一跳回头一看是警察。"},
+  {word:"くすぐったい",   read:"くすぐったい", type:"形",    mean:"发痒的；不好意思的", src:"N1-1170",
+   ej:"足の裏を触られると、誰でもくすぐったいだろう。", ec:"脚底被碰的话，谁都会觉得痒吧。"},
+  {word:"くっきり（と）", read:"くっきり",    type:"副",    mean:"清晰地；鲜明地", src:"N1-1170",
+   ej:"真っ青な空を背景に、富士山がくっきり見える。", ec:"以湛蓝的天空为背景，富士山清晰可见。"},
+  {word:"ぐったり（と）", read:"ぐったり",    type:"副",    mean:"精疲力竭地；瘫软地", src:"N1-1170",
+   ej:"うちへ帰ると、疲れてぐったりとベッドに横になった。", ec:"回到家里，疲惫地软倒在床上。"},
+  {word:"ぐっと",        read:"ぐっと",      type:"副",    mean:"猛地；大幅地；忍住", src:"N1-1170",
+   ej:"バスが揺れたので、倒れないよう、足にぐっと力を入れた。", ec:"公交车晃了一下，为了不倒下，腿使劲用力撑着。"},
+  {word:"げっそり（と）", read:"げっそり",    type:"副",    mean:"消瘦地；垂头丧气", src:"N1-1170",
+   ej:"祖父は病気でげっそりとやせてしまった。", ec:"祖父因病消瘦了很多。"},
+  {word:"したがって",     read:"したがって",   type:"接",    mean:"因此；所以", src:"N1-1170",
+   ej:"明日は祝日です。したがって、休診となります。", ec:"明天是节假日。因此，休诊。"},
+  {word:"しょっちゅう",   read:"しょっちゅう", type:"副",    mean:"经常；总是", src:"N1-2600",
+   ej:"この地域はしょっちゅう霧が発生して、視界が悪くなる。", ec:"这个地区经常出现浓雾，能见度变差。"},
+  {word:"じっくり（と）", read:"じっくり",    type:"副",    mean:"仔细地；慢慢地", src:"N1-1170",
+   ej:"すぐに答えを出そうとせず、じっくり考えてみることも大切だ。", ec:"不要急着给出答案，慢慢仔细思考也很重要。"},
+  {word:"すばしっこい",   read:"すばしっこい", type:"形",    mean:"敏捷的；行动迅速的", src:"N1-2600",
+   ej:"リスはすばしっこくて、なかなか写真に撮れない。", ec:"松鼠行动敏捷，很难拍到照片。"},
+  {word:"ずらっと",      read:"ずらっと",    type:"副",    mean:"一字排开；成排地", src:"N1-2600",
+   ej:"新作ゲームの発売日、店の前にずらっとファンが並んでいた光景は圧巻だった。", ec:"新游戏发售日，店前粉丝一字排开的场景非常壮观。"},
+  {word:"せんだって",     read:"せんだって",   type:"副",    mean:"前阵子；前些天", src:"N1-2600",
+   ej:"せんだっての試合では、チームが見事な逆転勝利を収めた。", ec:"前阵子的比赛中，队伍漂亮地取得了逆转胜利。"},
+  {word:"ぞっとする",     read:"ぞっとする",   type:"動",    mean:"毛骨悚然；不寒而栗", src:"N1-1170",
+   ej:"先日自転車で転んだ。もしあの時、車がそばを走っていたらと思うとぞっとする。", ec:"前几天骑自行车摔倒了。一想到要是当时旁边有车经过就不寒而栗。"},
+  {word:"てっきり",      read:"てっきり",    type:"副",    mean:"以为（实际并非如此）", src:"N1-1170",
+   ej:"待ち合わせ場所に誰もいなかったので、てっきり私が場所を間違えたのだと思ったが、実際はみんなが遅れたのだった。", ec:"等待地点没有人，还以为肯定是自己搞错了地方，结果是大家都迟到了。"},
+  {word:"とっさに",      read:"とっさに",    type:"副",    mean:"刹那间；紧急时刻", src:"N1-1170",
+   ej:"転びそうになり、とっさに手をついて体を支えた。", ec:"差点摔倒，刹那间用手撑地支撑住了身体。"},
+  {word:"ひっそり（と）", read:"ひっそり",    type:"副",    mean:"静悄悄地；悄然", src:"N1-1170",
+   ej:"夕方だと言うのに、商店街は人通りが少なく、ひっそりしていた。", ec:"虽说是傍晚，商店街行人稀少，静悄悄的。"},
+  {word:"みっともない",   read:"みっともない", type:"形",    mean:"丢脸的；不像样的", src:"N1-1170",
+   ej:"電車の中で口を開けて寝るなんて、みっともない。", ec:"在电车里张着嘴睡觉，真丢人。"},
+  {word:"むっと（する）", read:"むっと",      type:"副",    mean:"生闷气；忽然恼怒", src:"N1-1170",
+   ej:"しつこくからかわれて、むっとした。", ec:"被人没完没了地揶揄，生气了。"},
+  {word:"めっきり",      read:"めっきり",    type:"副",    mean:"显著地（程度变化）", src:"N1-1170",
+   ej:"日中はまだ暑いが、朝夕はめっきり涼しくなった。", ec:"白天还很热，但早晚明显变凉了。"},
+  {word:"もっとも",      read:"もっとも",    type:"接",    mean:"不过；虽然如此", src:"N1-1170",
+   ej:"彼女は頭がいい。もっとも、努力もしているから当然だが。", ec:"她很聪明。不过，因为也很努力，这是理所当然的。"},
+  {word:"もっぱら",      read:"もっぱら",    type:"副",    mean:"专门地；一心只顾", src:"N1-2600",
+   ej:"休日はもっぱら料理の研究に時間を費やしている。", ec:"休息日专门花时间研究料理。"},
+  {word:"やっこしい",     read:"やっこしい",   type:"形",    mean:"复杂的；麻烦的", src:"N1-1170",
+   ej:"この数学の問題は、解き方は難しくないが、計算がやっこしい。", ec:"这道数学题解法不难，但计算很烦琐。"},
+  {word:"やっつける",     read:"やっつける",   type:"動",    mean:"打败；干掉；搞定", src:"N1-1170",
+   ej:"宿題を今日中にやっつけてしまおう。", ec:"把作业今天之内搞定吧。"},
+  {word:"ゆったり（と）", read:"ゆったり",    type:"副",    mean:"宽松地；悠闲地", src:"N1-1170",
+   ej:"長期にわたった出張から帰り、久しぶりに家でゆったりとくつろいだ。", ec:"长期出差归来，久违地在家悠闲地放松了。"},
+  {word:"よって",        read:"よって",      type:"接",    mean:"因此；据此（书面语）", src:"N1-1170",
+   ej:"本日は台風接近のため、イベントは中止となりました。よって、参加費は全額返金いたします。", ec:"由于今日台风来袭，活动取消。因此，参加费将全额退款。"},
+  {word:"ずっと",        read:"ずっと",      type:"副",    mean:"一直；始终；远远", src:"N1-1170",
+   ej:"彼はずっと黙ったままで、何も言わなかった。", ec:"他一直保持沉默，什么都没说。"},
+];
+
+const TOTAL = WORDS.length;
+let states = {};
+let showCn = {};
+let currentFilter = 'all';
+let searchQ = '';
+
+try { states = JSON.parse(localStorage.getItem('sokuon_states') || '{}'); } catch(e){}
+try { showCn = JSON.parse(localStorage.getItem('sokuon_cn')     || '{}'); } catch(e){}
+
+function save() {
+  try {
+    localStorage.setItem('sokuon_states', JSON.stringify(states));
+    localStorage.setItem('sokuon_cn',     JSON.stringify(showCn));
+  } catch(e){}
+}
+
+// Highlight the っ in the word display
+function markSokuon(text) {
+  return text.replace(/っ/g, '<span class="sokuon-mark">っ</span>');
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function highlightWordInExample(ej, word) {
+  if (!word || !ej) return ej;
+  let clean = word.replace(/[\(（][^)）]*[\)）]/g, '').replace(/[（）\(\)と]/g,'').trim();
+  const stems = new Set([clean]);
+  if (clean.length >= 3) stems.add(clean.slice(0, -1));
+  if (clean.length >= 4) stems.add(clean.slice(0, -2));
+  const sorted = [...stems].sort((a,b) => b.length - a.length);
+  let result = ej;
+  for (const stem of sorted) {
+    if (!stem || stem.length < 2) continue;
+    const esc = stem.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re = new RegExp(`(${esc}[ぁ-ん]*)`, 'g');
+    const replaced = result.replace(re, '<span class="word-hl">$1</span>');
+    if (replaced !== result) { result = replaced; break; }
+  }
+  return result;
+}
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  const q = searchQ.trim().toLowerCase();
+  let visible = 0;
+  let html = '';
+
+  WORDS.forEach((w, i) => {
+    const st = states[i] || 'none';
+    const cn = showCn[i] || false;
+
+    if (currentFilter === 'marked'   && st !== 'marked')   return;
+    if (currentFilter === 'mastered' && st !== 'mastered') return;
+    if (currentFilter === 'unmarked' && st !== 'none')     return;
+
+    const hay = (w.word + w.read + w.mean + w.ej + w.ec).toLowerCase();
+    if (q && !hay.includes(q)) return;
+
+    visible++;
+    const masterCls = st === 'mastered' ? ' mastered' : '';
+    const markCls   = st === 'marked'   ? ' marked'   : '';
+    const cnCls     = cn ? ' show-cn' : '';
+    const mBtnCls   = st === 'mastered' ? ' on-master' : '';
+    const mkBtnCls  = st === 'marked'   ? ' on-mark'   : '';
+
+    const wordDisplay = markSokuon(highlight(w.word, q));
+    const mnH  = highlight(w.mean, q);
+    const ejRed = highlightWordInExample(w.ej, w.word);
+    const ejH  = highlight(ejRed, q);
+
+    const srcCls = w.src === 'N1-1170' ? 'src-1170' : 'src-2600';
+
+    html += `<div class="card${masterCls}${markCls}${cnCls}">
+  <div class="card-head">
+    <div>
+      <div class="word-jp">${wordDisplay}</div>
+      <div class="reading">${w.read !== w.word ? w.read : ''}</div>
+    </div>
+    <div class="badges">
+      <span class="badge-type">${w.type}</span>
+      <span class="badge-src ${srcCls}">${w.src}</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meaning">${mnH}</div>
+    <div class="example-jp">${ejH}</div>
+    <div class="example-cn">${w.ec}</div>
+  </div>
+  <div class="card-foot">
+    <button class="btn-sm${mBtnCls}"  onclick="toggleMaster(${i},event)">${st==='mastered'?'✓ 已掌握':'○ 掌握'}</button>
+    <button class="btn-sm${mkBtnCls}" onclick="toggleMark(${i},event)">${st==='marked'?'△ 标记中':'△ 要复习'}</button>
+    <button class="btn-sm btn-cn"     onclick="toggleCn(${i},event)">${cn?'隐藏译文':'译文'}</button>
+  </div>
+</div>`;
+  });
+
+  if (!visible) html = '<div class="empty">没有符合条件的词语</div>';
+  grid.innerHTML = html;
+  document.getElementById('countBadge').textContent = visible + ' 語';
+  updateProgress();
+}
+
+function toggleMaster(i,e) { e.stopPropagation(); states[i]=(states[i]==='mastered')?'none':'mastered'; save(); renderCards(); }
+function toggleMark(i,e)   { e.stopPropagation(); states[i]=(states[i]==='marked')?'none':'marked';     save(); renderCards(); }
+function toggleCn(i,e)     { e.stopPropagation(); showCn[i]=!showCn[i]; save(); renderCards(); }
+
+function updateProgress() {
+  const mastered = Object.values(states).filter(v=>v==='mastered').length;
+  const pct = Math.round(mastered/TOTAL*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = `已掌握：${mastered} / ${TOTAL}（${pct}%）`;
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQ = e.target.value;
+  renderCards();
+});
+
+renderCards();
+</script>
+</body>
+</html>

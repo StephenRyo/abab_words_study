@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026年7月 N1词汇考点押题</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+  :root {
+    --ink:     #1a1a2e;
+    --muted:   #5a5a7a;
+    --dim:     #9090aa;
+    --paper:   #f7f5f0;
+    --cream:   #ede9e0;
+    --accent:  #c0392b;
+    --accent2: #2980b9;
+    --rule:    #d4cfc4;
+    --card-bg: #ffffff;
+    --shadow:  0 2px 12px rgba(26,26,46,0.07);
+
+    --cat1: #c0392b;
+    --cat2: #2471a3;
+    --cat3: #1e8449;
+    --cat4: #7d3c98;
+    --cat5: #ca6f1e;
+    --cat6: #17a589;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 28px 40px 22px;
+    border-bottom: 3px solid var(--accent);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  .header-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .site-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .site-sub {
+    font-size: 0.78rem;
+    color: #aab;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  .count-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    max-width: 1080px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-family: inherit;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .cat-btn { border-radius: 14px; }
+  .cat-btn[data-cat="名詞"].active     { background: var(--cat1); border-color: var(--cat1); }
+  .cat-btn[data-cat="動詞"].active     { background: var(--cat2); border-color: var(--cat2); }
+  .cat-btn[data-cat="形容詞"].active   { background: var(--cat3); border-color: var(--cat3); }
+  .cat-btn[data-cat="副詞"].active     { background: var(--cat4); border-color: var(--cat4); }
+  .cat-btn[data-cat="外来語"].active   { background: var(--cat5); border-color: var(--cat5); }
+  .cat-btn[data-cat="接続詞"].active   { background: var(--cat6); border-color: var(--cat6); }
+
+  .sep { width: 1px; height: 24px; background: var(--rule); flex-shrink: 0; }
+
+  .search-wrap { margin-left: auto; position: relative; }
+  #search {
+    padding: 7px 14px 7px 34px;
+    border-radius: 20px;
+    border: 1.5px solid var(--rule);
+    background: var(--card-bg);
+    font-family: inherit;
+    font-size: 0.82rem;
+    color: var(--ink);
+    outline: none;
+    width: 210px;
+    transition: border-color 0.18s;
+  }
+  #search:focus { border-color: var(--accent2); }
+  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--dim); font-size: 12px; pointer-events: none; }
+
+  /* ── Progress ── */
+  .progress-wrap { max-width: 1080px; margin: 16px auto 0; padding: 0 20px; }
+  .progress-label { font-size: 0.76rem; color: var(--dim); margin-bottom: 5px; letter-spacing: 0.06em; }
+  .progress-track { height: 4px; background: var(--cream); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+
+  /* ── Grid ── */
+  .grid {
+    max-width: 1080px;
+    margin: 24px auto 60px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--rule);
+    overflow: hidden;
+    transition: transform 0.18s, box-shadow 0.18s;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(26,26,46,0.11); }
+  .card.mastered { border-color: #27ae60; background: #f0faf4; }
+  .card.marked   { border-color: #f39c12; background: #fffdf0; }
+
+  /* category left-border accent */
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 10px 0 0 10px;
+  }
+  .card[data-cat="名詞"]::before   { background: var(--cat1); }
+  .card[data-cat="動詞"]::before   { background: var(--cat2); }
+  .card[data-cat="形容詞"]::before { background: var(--cat3); }
+  .card[data-cat="副詞"]::before   { background: var(--cat4); }
+  .card[data-cat="外来語"]::before { background: var(--cat5); }
+  .card[data-cat="接続詞"]::before { background: var(--cat6); }
+
+  .card-head {
+    padding: 14px 16px 10px 20px;
+    border-bottom: 1px solid var(--cream);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .word-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+  .reading { font-size: 0.75rem; color: var(--dim); margin-top: 3px; }
+  .num { font-size: 0.65rem; color: var(--dim); margin-top: 2px; }
+
+  .badges { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .badge-type {
+    font-size: 0.68rem; padding: 2px 8px; border-radius: 10px;
+    color: #fff; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .badge-名詞   { background: var(--cat1); }
+  .badge-動詞   { background: var(--cat2); }
+  .badge-形容詞 { background: var(--cat3); }
+  .badge-副詞   { background: var(--cat4); }
+  .badge-外来語 { background: var(--cat5); }
+  .badge-接続詞 { background: var(--cat6); }
+
+  .badge-subtype {
+    font-size: 0.65rem; padding: 2px 7px; border-radius: 10px;
+    background: var(--cream); color: var(--muted); white-space: nowrap;
+  }
+
+  .card-body { padding: 10px 16px 12px 20px; }
+  .meaning { font-size: 0.98rem; font-weight: 500; color: var(--accent); margin-bottom: 8px; line-height: 1.4; }
+  .example-jp { font-size: 0.82rem; color: var(--ink); line-height: 1.7; margin-bottom: 3px; }
+  .example-cn { font-size: 0.78rem; color: var(--muted); line-height: 1.65; display: none; }
+  .card.show-cn .example-cn { display: block; }
+
+  .card-foot {
+    padding: 7px 16px 9px 20px;
+    border-top: 1px solid var(--cream);
+    display: flex;
+    gap: 6px;
+  }
+  .btn-sm {
+    padding: 3px 10px; border-radius: 12px; border: 1.2px solid var(--rule);
+    background: transparent; font-size: 0.7rem; color: var(--muted);
+    cursor: pointer; font-family: inherit; transition: all 0.15s; letter-spacing: 0.03em;
+  }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-sm.on-master { border-color: #27ae60; color: #27ae60; background: #f0faf4; }
+  .btn-sm.on-mark   { border-color: #f39c12; color: #f39c12; background: #fffdf0; }
+  .btn-cn { margin-left: auto; }
+
+  mark { background: #fff3a0; color: inherit; border-radius: 2px; }
+  .word-hl { color: var(--accent); font-weight: 700; }
+
+  .empty { grid-column: 1/-1; text-align: center; color: var(--dim); padding: 60px 20px; font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 22px; color: var(--dim); font-size: 0.76rem; border-top: 1px solid var(--rule); letter-spacing: 0.05em; }
+
+  /* category legend */
+  .legend {
+    max-width: 1080px;
+    margin: 10px auto 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.74rem; color: var(--muted);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="site-title">2026年7月 N1考前押题 — 词汇考点</div>
+      <div class="site-sub">名詞 · 動詞 · 形容詞 · 副詞 · 外来語 · 接続詞　計 210 語</div>
+    </div>
+    <div class="count-badge" id="countBadge">210 語</div>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat1)"></div>名詞 50</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat2)"></div>動詞 50</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat3)"></div>形容詞 40</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat4)"></div>副詞 40</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat5)"></div>外来語 20</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat6)"></div>接続詞 10</div>
+</div>
+
+<div class="controls">
+  <button class="filter-btn active" data-filter="all">すべて</button>
+  <div class="sep"></div>
+  <button class="filter-btn cat-btn" data-cat="名詞">名詞</button>
+  <button class="filter-btn cat-btn" data-cat="動詞">動詞</button>
+  <button class="filter-btn cat-btn" data-cat="形容詞">形容詞</button>
+  <button class="filter-btn cat-btn" data-cat="副詞">副詞</button>
+  <button class="filter-btn cat-btn" data-cat="外来語">外来語</button>
+  <button class="filter-btn cat-btn" data-cat="接続詞">接続詞</button>
+  <div class="sep"></div>
+  <button class="filter-btn" data-filter="marked">△ 要复习</button>
+  <button class="filter-btn" data-filter="mastered">✓ 已掌握</button>
+  <button class="filter-btn" data-filter="unmarked">未标记</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text" placeholder="搜索词语或含义…">
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progressLabel">已掌握：0 / 210</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>树先生日语 终极押题 · 2026年7月N1词汇考点 · 点击「译文」显示中文例句</footer>
+
+<script>
+const WORDS = [
+  // ── 名詞 ──
+  {no:1,  cat:"名詞", sub:"",       word:"兆候",    read:"ちょうこう",   mean:"征兆，前兆",       ej:"経済指標を見る限り、景気が劇的に回復する兆候はまだ見られない。",                 ec:"仅从经济指标来看，经济剧烈复苏的征兆还未显现。"},
+  {no:2,  cat:"名詞", sub:"",       word:"核心",    read:"かくしん",     mean:"核心，关键",       ej:"彼の質問は非常に鋭く、今回の議論の核心を突いていた。",                       ec:"他的提问非常尖锐，切中了这次讨论的核心。"},
+  {no:3,  cat:"名詞", sub:"",       word:"秩序",    read:"ちつじょ",     mean:"秩序，条理",       ej:"社会の秩序を維持するためには、一人一人のモラルが不可欠だ。",                   ec:"为了维持社会的秩序，每个人的道德都是不可或缺的。"},
+  {no:4,  cat:"名詞", sub:"",       word:"脈絡",    read:"みゃくらく",   mean:"脉络，条理",       ej:"彼女の主張は文脈の脈絡を欠いており、意図が伝わりにくい。",                   ec:"她的主张缺乏上下文的脉络，意图很难传达清楚。"},
+  {no:5,  cat:"名詞", sub:"",       word:"是正",    read:"ぜせい",       mean:"纠正，改正",       ej:"企業間の不公平な格差を是正するため、新たな法案が可決された。",               ec:"为了纠正企业间不公平的差距，新法案获得了通过。"},
+  {no:6,  cat:"名詞", sub:"",       word:"錯誤",    read:"さくご",       mean:"错误，失误",       ej:"試行錯誤を繰り返した末に、ようやく新薬の基礎研究が軌道に乗った。",           ec:"在不断反复试错之后，新药的基础研究终于步入了正轨。"},
+  {no:7,  cat:"名詞", sub:"",       word:"懸念",    read:"けねん",       mean:"担心，担忧",       ej:"労働力不足が深刻化する現状に対し、将来の経済衰退が懸念される。",             ec:"针对劳动力不足日益严重的现状，人们对未来的经济衰退感到担忧。"},
+  {no:8,  cat:"名詞", sub:"",       word:"妥協",    read:"だきょう",     mean:"妥协，让步",       ej:"開発チームは品質において一切の妥協を許さず、設計を練り直した。",             ec:"研发团队在质量上不容许一丝一毫的妥协，重新推敲了设计。"},
+  {no:9,  cat:"名詞", sub:"",       word:"連携",    read:"れんけい",     mean:"协作，联合",       ej:"行政と民間企業が緊密に連携し、地域の振興を図る。",                           ec:"政府行政部门与民间企业紧密协作，谋求地区振兴。"},
+  {no:10, cat:"名詞", sub:"",       word:"把握",    read:"はあく",       mean:"掌握，充分理解",   ej:"リーダーは常にチーム全体の進捗状況を正確に把握すべきだ。",                   ec:"领导者应当始终准确掌握整个团队的进展情况。"},
+  {no:11, cat:"名詞", sub:"",       word:"拠点",    read:"きょてん",     mean:"据点，大本营",     ej:"我が社はアジア市場進出の拠点として、シンガポールを選んだ。",                 ec:"我公司选择新加坡作为进军亚洲市场的据点。"},
+  {no:12, cat:"名詞", sub:"",       word:"拡散",    read:"かくさん",     mean:"扩散，传播",       ej:"ネット上で誤った情報が瞬く間に拡散し、混乱を招いた。",                       ec:"错误信息在网上转眼间扩散开来，引发了混乱。"},
+  {no:13, cat:"名詞", sub:"",       word:"矛盾",    read:"むじゅん",     mean:"矛盾",             ej:"彼の今日の証言は、先週提出された原本のデータと完全に矛盾する。",             ec:"他今天的证言与上周提交的原本数据完全矛盾。"},
+  {no:14, cat:"名詞", sub:"",       word:"終焉",    read:"しゅうえん",   mean:"终结，终焉",       ej:"10年も続いたその長期政権は、民衆のデモによって終焉を迎えた。",               ec:"延续了10年之久的那任长期政权，因民众游行迎来了终结。"},
+  {no:15, cat:"名詞", sub:"",       word:"起伏",    read:"きふく",       mean:"起伏，波动",       ej:"この地域は土地の起伏が激しいため、道路の工事が難航している。",               ec:"这个地区地势起伏剧烈，导致道路施工进展艰难。"},
+  {no:16, cat:"名詞", sub:"",       word:"生涯",    read:"しょうがい",   mean:"一生，生涯",       ej:"彼は生涯をかけて、絶滅危惧種の保護活動に身を投じた。",                       ec:"他用尽一生，投身于濒危物种的保护活动之中。"},
+  {no:17, cat:"名詞", sub:"",       word:"郷愁",    read:"きょうしゅう", mean:"思乡之情，怀旧",   ej:"古い下町の写真を見ていると、幼い頃への郷愁を覚える。",                       ec:"看着老街的照片，心中不禁涌起对童年时期的怀旧之情。"},
+  {no:18, cat:"名詞", sub:"",       word:"視点",    read:"してん",       mean:"视点，角度",       ej:"一つの方向からだけでなく、異なる視点から問題を見直そう。",                   ec:"试着不仅从一个方向，而是从不同的角度重新审视问题吧。"},
+  {no:19, cat:"名詞", sub:"",       word:"是非",    read:"ぜひ",         mean:"是非，对错",       ej:"裁判官は提出された証拠に基づいて、事件の是非を厳正に裁く。",               ec:"法官基于提交的证据，对事件的是非对错进行严正审判。"},
+  {no:20, cat:"名詞", sub:"",       word:"相場",    read:"そうば",       mean:"行情，市价",       ej:"為替の相場は、国際情勢の変化によって毎日激しく変動する。",                   ec:"汇率行情随着国际局势的变化每天都在剧烈变动。"},
+  {no:21, cat:"名詞", sub:"",       word:"配慮",    read:"はいりょ",     mean:"关怀，顾虑",       ej:"周囲への配慮を怠った彼の軽率な行動は、多くの批判を浴びた。",               ec:"他疏忽了对周围人的顾虑，其轻率举动引来了诸多批判。"},
+  {no:22, cat:"名詞", sub:"",       word:"繁栄",    read:"はんえい",     mean:"繁荣，昌盛",       ej:"貿易の発展によって、その港町は中世に大いなる繁栄を極めた。",               ec:"随着贸易的发展，那个港口城市在中世纪达到了极大的繁荣。"},
+  {no:23, cat:"名詞", sub:"",       word:"領域",    read:"りょういき",   mean:"领域，范围",       ej:"人工知能の進化は、今や芸術の領域にまで深く踏み込んでいる。",               ec:"人工智能的进化如今甚至已经深刻踏入了艺术的领域。"},
+  {no:24, cat:"名詞", sub:"",       word:"履歴",    read:"りれき",       mean:"履历，历史记录",   ej:"面接の前に、これまでの職務履歴をまとめた書類を提出した。",                   ec:"面试之前，提交了汇总有至今工作履历的文件。"},
+  {no:25, cat:"名詞", sub:"",       word:"意図",    read:"いと",         mean:"意图，打算",       ej:"彼の発言の真の意図を読み解くには、背景を調べる必要がある。",               ec:"要解读他发言的真正意图，有必要调查其背景。"},
+  {no:26, cat:"名詞", sub:"",       word:"運営",    read:"うんえい",     mean:"运营，管理",       ej:"資金不足により、その美術館は今後の運営が危ぶまれている。",                   ec:"由于资金不足，那家美术馆今后的运营令人担忧。"},
+  {no:27, cat:"名詞", sub:"",       word:"概略",    read:"がいりゃく",   mean:"概略，概要",       ej:"会議の冒頭で、新商品の開発計画の概略を簡単に説明した。",                   ec:"在会议伊始，简单说明了新商品开发计划的概要。"},
+  {no:28, cat:"名詞", sub:"",       word:"跡地",    read:"あとち",       mean:"旧址，空地",       ej:"工場が移転した後の跡地には、大型の商業施設が建設される予定だ。",           ec:"工厂搬迁后的旧址上，计划建设大型商业设施。"},
+  {no:29, cat:"名詞", sub:"",       word:"需要",    read:"じゅよう",     mean:"需求，需要",       ej:"冬の到来に伴い、暖房器具に対する需要が急激に高まっている。",               ec:"随着冬季的到来，对取暖器具的需求正急剧高涨。"},
+  {no:30, cat:"名詞", sub:"",       word:"趣旨",    read:"しゅし",       mean:"主旨，宗旨",       ej:"今回のシンポジウムの趣旨に合致する論文を募集しています。",                   ec:"正在募集符合本次研讨会主旨的论文。"},
+  {no:31, cat:"名詞", sub:"",       word:"念頭",    read:"ねんとう",     mean:"念头，心思",       ej:"常に最悪の事態を念頭に置いて、リスク管理を行うべきだ。",                   ec:"应当始终将最坏的事态放在心上，进行风险管理。"},
+  {no:32, cat:"名詞", sub:"",       word:"中枢",    read:"ちゅうすう",   mean:"中枢，枢纽",       ej:"彼は若くして抜擢され、今や組織の中枢で手腕を振るっている。",               ec:"他年纪轻轻便被提拔，如今正在组织的中枢大展才干。"},
+  {no:33, cat:"名詞", sub:"",       word:"支障",    read:"ししょう",     mean:"故障，障碍",       ej:"徹夜が続くと健康を損ない、翌日の業務に支障をきたす恐れがある。",           ec:"持续熬夜会搞垮身体，恐怕会对翌日的业务造成障碍。"},
+  {no:34, cat:"名詞", sub:"",       word:"苦境",    read:"くきょう",     mean:"困境，逆境",       ej:"会社は深刻な資金不足という苦境に立たされている。",                           ec:"公司正处于深刻的资金不足这一困境之中。"},
+  {no:35, cat:"名詞", sub:"",       word:"心構え",  read:"こころがまえ", mean:"精神准备",         ej:"海外赴任に際して、現地の文化を受け入れる心構えが必要だ。",                   ec:"在赴海外任职之际，接纳当地文化的精神准备是必要的。"},
+  {no:36, cat:"名詞", sub:"",       word:"経緯",    read:"けいい",       mean:"经过，原委",       ej:"トラブルが発生した経緯を、上司に詳細に報告した。",                           ec:"将发生纠纷的原委向上司详细作了报告。"},
+  {no:37, cat:"名詞", sub:"",       word:"基盤",    read:"きばん",       mean:"基础，底子",       ej:"経営の基盤を強固にするため、組織の大幅な改革に乗り出した。",               ec:"为了让经营的基础更加稳固，着手进行了组织的大幅改革。"},
+  {no:38, cat:"名詞", sub:"",       word:"根拠",    read:"こんきょ",     mean:"根据，依据",       ej:"彼の主張は客観的なデータという根拠を欠いており、説得力がない。",           ec:"他的主张缺乏客观数据这一根据，毫无说服力。"},
+  {no:39, cat:"名詞", sub:"",       word:"内訳",    read:"うちわけ",     mean:"明细，清单",       ej:"出張費の内訳を確認したところ、交通費が半分を占めていた。",                   ec:"确认了出差费的明细，发现交通费占了一半。"},
+  {no:40, cat:"名詞", sub:"",       word:"一環",    read:"いっかん",     mean:"一个环节",         ej:"環境保護活動の一環として、地域のゴミ拾いが出発した。",                       ec:"作为环境保护活动的一个环节，开展了社区捡垃圾活动。"},
+  {no:41, cat:"名詞", sub:"",       word:"難点",    read:"なんてん",     mean:"难点，缺点",       ej:"このシステムは機能が豊富だが、操作が複雑なのが難点だ。",                   ec:"这个系统虽然功能丰富，但操作复杂是其缺点。"},
+  {no:42, cat:"名詞", sub:"",       word:"拠点",    read:"きょてん",     mean:"据点，基地",       ej:"そのメーカーは物流の拠点を地方に移し、コスト削減を図った。",               ec:"那家厂商将物流据点迁至地方，以谋求削减成本。"},
+  {no:43, cat:"名詞", sub:"",       word:"抱負",    read:"ほうふ",       mean:"抱负",             ej:"新年の最初の会議で、社員一人一人が今年の抱負を語った。",                   ec:"在新年的第一次会议上，每位员工都讲述了自己的新年抱负。"},
+  {no:44, cat:"名詞", sub:"",       word:"手際",    read:"てぎわ",       mean:"手法，技巧",       ej:"ベテランの職人は、実に見事な手際でガラスを細工していく。",                 ec:"老练的匠人用真正精妙的手法对玻璃进行着工艺打造。"},
+  {no:45, cat:"名詞", sub:"",       word:"風潮",    read:"ふうちょう",   mean:"社会风气",         ej:"効率性ばかりを重視する現代の風潮に対し、疑問を投げかける。",               ec:"针对一味重视效率的现代社会风气，提出了质疑。"},
+  {no:46, cat:"名詞", sub:"",       word:"筋道",    read:"すじみち",     mean:"道理，条理",       ej:"論文を書く時は、論理の筋道をはっきりと立てる必要がある。",                 ec:"撰写论文时，有必要让逻辑条理清晰确立。"},
+  {no:47, cat:"名詞", sub:"",       word:"資質",    read:"ししつ",       mean:"资质，天赋",       ej:"彼はリーダーとしての優れた資質を、生まれながらに備えている。",             ec:"他天生就具备作为领导者的优秀资质。"},
+  {no:48, cat:"名詞", sub:"",       word:"余暇",    read:"よか",         mean:"余暇，业余时间",   ej:"現代人は忙しいが、余暇の時間をのんびり過ごすことも大切だ。",               ec:"现代人虽忙，但悠闲地度过业余时间也很重要。"},
+  {no:49, cat:"名詞", sub:"",       word:"行政",    read:"ぎょうせい",   mean:"行政",             ej:"地域のトラブルを解決するため、行政が仲裁に乗り出した。",                   ec:"为了解决地域纠纷，行政部门出面进行了调停。"},
+  {no:50, cat:"名詞", sub:"",       word:"試練",    read:"しれん",       mean:"考验，试炼",       ej:"数々の厳しい試練を乗り越えた末に、ついに快挙を成し遂げた。",             ec:"走过重重严酷考验的最后，终于完成了壮举。"},
+  // ── 動詞 ──
+  {no:51, cat:"動詞", sub:"",       word:"潤う",    read:"うるおう",     mean:"湿润，得利",       ej:"臨時ボーナスが支給されたおかげで、久しぶりに家計が潤った。",               ec:"多亏发了临时奖金，家里的财政总算宽裕了一些。"},
+  {no:52, cat:"動詞", sub:"",       word:"賄う",    read:"まかなう",     mean:"筹措，维持",       ej:"彼はアルバイトをして、大学の学費と生活費をすべて賄っている。",             ec:"他通过打工，把大学的学费和生活费全部维持了下来。"},
+  {no:53, cat:"動詞", sub:"",       word:"馴染む",  read:"なじむ",       mean:"熟悉，适应",       ej:"新しい職場にようやく馴染んできた頃に、また転勤が命じられた。",             ec:"刚好不容易对新职场熟悉起来的时候，又被命令调职了。"},
+  {no:54, cat:"動詞", sub:"",       word:"逆らう",  read:"さからう",     mean:"违背，反抗",       ej:"時代の大きな流れに逆らうことは、容易なことではない。",                       ec:"违背时代的大潮，绝非一件易事。"},
+  {no:55, cat:"動詞", sub:"",       word:"賑わう",  read:"にぎわう",     mean:"热闹，拥挤",       ej:"週末になると、その古い商店街は多くの観光客で大いに賑わう。",               ec:"一到周末，那条古老的商业街就因众多游客而显得热闹非凡。"},
+  {no:56, cat:"動詞", sub:"",       word:"練る",    read:"ねる",         mean:"仔细推敲",         ej:"企画の趣旨をしっかりと伝えるため、プレゼンの構成を何度も練った。",         ec:"为了牢牢传达企划主旨，将演讲的构成反复推敲了多次。"},
+  {no:57, cat:"動詞", sub:"",       word:"募る",    read:"つのる",       mean:"招募，加剧",       ej:"新しいプロジェクトへの参加者を募ったところ、逸材が集まった。",             ec:"招募新项目的参与者后，聚集到了一批卓越人才。"},
+  {no:58, cat:"動詞", sub:"",       word:"絡める",  read:"からめる",     mean:"缠绕，涉及",       ej:"今回の不祥事には、複数の企業の利害関係が複雑に絡んでいる。",             ec:"这次丑闻中，多家企业的利害关系复杂地交织涉及在了一起。"},
+  {no:59, cat:"動詞", sub:"",       word:"及ぼす",  read:"およぼす",     mean:"波及，影响到",     ej:"工場の排水が、近くの河川の生態系に深刻な悪影響を及ぼしている。",         ec:"工厂的排水正对附近河流的生态系统造成深刻的恶劣影响。"},
+  {no:60, cat:"動詞", sub:"",       word:"授ける",  read:"さずける",     mean:"授予，传授",       ej:"長年の修行を経て、師匠は彼に伝統芸能の神髄を授けた。",                     ec:"经历了多年的修行，师傅向他传授了传统艺术的精髓。"},
+  {no:61, cat:"動詞", sub:"",       word:"費やす",  read:"ついやす",     mean:"花费，耗费",       ej:"過去の膨大なデータを分析するために、多大な時間と労力を費やした。",       ec:"为了分析过去的庞大数据，耗费了巨额的时间和精力。"},
+  {no:62, cat:"動詞", sub:"",       word:"掲げる",  read:"かかげる",     mean:"挂，举起，提出",   ej:"我が社は「環境と安全の両立」という明確な目標を掲げている。",               ec:"我公司提出了「环保与安全的兼顾」这一明确目标。"},
+  {no:63, cat:"動詞", sub:"",       word:"捗る",    read:"はかどる",     mean:"进展顺利",         ej:"静かな環境で作業に没頭したおかげで、今日の業務は大幅に捗った。",         ec:"多亏在安静的环境中埋头作业，今天的业务进展得非常顺利。"},
+  {no:64, cat:"動詞", sub:"",       word:"逃れる",  read:"のがれる",     mean:"逃脱，摆脱",       ej:"都会の喧騒を逃れて、週末は高原の別荘でのんびり過ごした。",               ec:"摆脱了都市的喧嚣，周末在高原的别墅里悠闲度过。"},
+  {no:65, cat:"動詞", sub:"",       word:"遮る",    read:"さえぎる",     mean:"遮挡，打断",       ej:"彼は人の話を遮って自分の意見を言い張るため、評判が悪い。",               ec:"他总爱打断别人的话来固执己见，所以评价很差。"},
+  {no:66, cat:"動詞", sub:"",       word:"妨げる",  read:"さまたげる",   mean:"妨碍，阻碍",       ej:"激しい騒音は、近隣住民の健やかな睡眠を妨げる要因となる。",               ec:"剧烈的噪音会成为妨碍附近居民健康睡眠的诱因。"},
+  {no:67, cat:"動詞", sub:"",       word:"弾む",    read:"はずむ",       mean:"反弹，高涨",       ej:"久しぶりに再会した旧友との会話が弾み、時間を忘れてしまった。",           ec:"阔别多年重逢，与老友的交谈聊得非常投机高涨，忘却了时间。"},
+  {no:68, cat:"動詞", sub:"",       word:"目論む",  read:"もくろむ",     mean:"计划，策划",       ej:"ライバル企業は、我が社のシェアを奪おうと新たな作戦を目論んでいる。",   ec:"竞争对手公司正策划着新的策略，企图夺走我公司的市场份额。"},
+  {no:69, cat:"動詞", sub:"",       word:"叶う",    read:"かなう",       mean:"实现，如愿以偿",   ej:"長年の念願が叶い、ついに自分の店を発足させることができた。",             ec:"多年来的心愿如愿以偿，终于能够让自己店面开张成立了。"},
+  {no:70, cat:"動詞", sub:"",       word:"滞る",    read:"とどこおる",   mean:"拖延，拖欠",       ej:"事務の手続きが滞っているせいで、新商品の出荷が遅れている。",             ec:"因为行政手续陷入了滞留拖延，新商品的出货发货延误了。"},
+  {no:71, cat:"動詞", sub:"",       word:"劣る",    read:"おとる",       mean:"劣，不如",         ej:"性能面において、この製品は他社の最新モデルに決して劣らない。",           ec:"在性能方面，这款产品绝不逊色于其他公司的最新款式。"},
+  {no:72, cat:"動詞", sub:"",       word:"覆す",    read:"くつがえす",   mean:"推翻，彻底改变",   ej:"緻密なデータ検証により、従来の科学的常識を覆す新発見がなされた。",     ec:"通过精密的科学验证，作出了推翻以往科学常识的新发现。"},
+  {no:73, cat:"動詞", sub:"",       word:"翻す",    read:"ひるがえす",   mean:"翻转，突然改变",   ej:"彼は契約の直前になって、これまで主張していた態度を翻した。",             ec:"他在契约即将签订前，突然改变了至今一直坚持的态度。"},
+  {no:74, cat:"動詞", sub:"",       word:"惑わす",  read:"まどわす",     mean:"蛊惑，扰乱",       ej:"ネット上のデマは人々の心を惑わすため、慎重に見極めるべきだ。",         ec:"网络上的谣言会蛊惑人心，应当审慎地进行甄别。"},
+  {no:75, cat:"動詞", sub:"",       word:"揺るがす",read:"ゆるがす",     mean:"摇撼，动摇",       ej:"その大企業の不祥事は、社会の根底を揺るがす重大な事件となった。",       ec:"那家大企业的丑闻，成了动摇社会根底的重大事件。"},
+  {no:76, cat:"動詞", sub:"",       word:"施す",    read:"ほどこす",     mean:"施行，施加，施舍", ej:"傷口に適切な処置を施したおかげで、負傷の悪化を免れた。",               ec:"多亏对伤口施加了妥当的医疗处理，幸免了伤势恶化。"},
+  {no:77, cat:"動詞", sub:"",       word:"設ける",  read:"もうける",     mean:"设置，准备",       ej:"意見を幅広く集めるため、臨時に相談窓口を設けることにした。",           ec:"为了广泛收集意见，决定临时设置一个咨询窗口。"},
+  {no:78, cat:"動詞", sub:"",       word:"挙げる",  read:"あげる",       mean:"举起，举证",       ej:"彼の主張を支持する具体的な証拠を挙げて、論理的に説明した。",           ec:"列举出支持他主张的具体证据，进行了逻辑性的解释。"},
+  {no:79, cat:"動詞", sub:"",       word:"怠る",    read:"おこたる",     mean:"懈怠，疏忽",       ej:"毎日の点検を怠ると、思わぬ重大な事故につながる恐れがある。",           ec:"如果疏忽了每日的检查，恐怕会导致意想不到的重大事故。"},
+  {no:80, cat:"動詞", sub:"",       word:"秘める",  read:"ひめる",       mean:"隐藏，胸怀",       ej:"彼女は大人しそうに見えるが、その胸中には強い情熱を秘めている。",       ec:"她看起来很温顺，但内心深处却隐藏着强烈的激情。"},
+  {no:81, cat:"動詞", sub:"",       word:"避ける",  read:"よける",       mean:"躲开，避开",       ej:"飛び出してきた自転車をよけようとして、道で転んでしまった。",           ec:"为了躲开突然冲出来的自行车，在路上摔倒了。"},
+  {no:82, cat:"動詞", sub:"",       word:"拒む",    read:"こばむ",       mean:"拒绝",             ej:"彼はプライドが高く、周囲からのアドバイスを一切拒んだ。",               ec:"他自尊心极强，一概拒绝了周围人给出的建议。"},
+  {no:83, cat:"動詞", sub:"",       word:"歪む",    read:"ゆがむ",       mean:"歪斜，扭曲",       ej:"長年使っていた机の脚が歪んでしまい、書類が滑り落ちる。",               ec:"用了多年的桌子腿发生了歪斜，文件总会滑落下去。"},
+  {no:84, cat:"動詞", sub:"",       word:"辿る",    read:"たどる",       mean:"沿着前进，追寻",   ej:"交渉は互いに妥協せず、平行線をたどるまま決着がつかない。",             ec:"谈判双方互不让步，一直各持己见平行发展，无法解决。"},
+  {no:85, cat:"動詞", sub:"",       word:"歩む",    read:"あゆむ",       mean:"走，前进",         ej:"二人は長年の試練を乗り越え、共に新しい人生を歩み始めた。",             ec:"两人走过重重严酷考验，开始携手步入新的人生。"},
+  {no:86, cat:"動詞", sub:"",       word:"損なう",  read:"そこなう",     mean:"损坏，伤害",       ej:"彼の不用意な一言が、長年築いてきた信頼関係を損なってしまった。",       ec:"他不经意的一句话，伤害了多年来建立起的信任关系。"},
+  {no:87, cat:"動詞", sub:"",       word:"慕う",    read:"したう",       mean:"敬慕，爱慕",       ej:"彼はその誠実な人柄により、多くの部下から慕われている。",               ec:"他因诚实的人品，受到了众多下属的敬慕追随。"},
+  {no:88, cat:"動詞", sub:"",       word:"労わる",  read:"いたわる",     mean:"体贴，安慰，慰劳", ej:"病気で療養中の母を労わり、週末は家事をすべて引き受けた。",             ec:"照顾体贴生病疗养中的母亲，周末我承担了全部家务。"},
+  {no:89, cat:"動詞", sub:"",       word:"伴う",    read:"ともなう",     mean:"伴随，随着",       ej:"経済の発展に伴って、人々の生活様式も大きく変化した。",                   ec:"伴随着经济的发展，人们的生活方式也发生了巨大的变化。"},
+  {no:90, cat:"動詞", sub:"",       word:"唱える",  read:"となえる",     mean:"声称，提倡",       ej:"格差社会を是正するため、新しい税制の導入を唱える学者が増えた。",       ec:"为了纠正格差社会，提倡引入新税制的学者增加了。"},
+  {no:91, cat:"動詞", sub:"",       word:"称える",  read:"たたえる",     mean:"称赞，表彰",       ej:"困難な任務を成し遂げた彼らの奮闘を称え、賞状が贈られた。",           ec:"表彰他们完成艰巨任务的奋斗之举，颁发了奖状。"},
+  {no:92, cat:"動詞", sub:"",       word:"訴える",  read:"うったえる",   mean:"申诉，控告",       ej:"会社側の不当な処分に対し、組合は法的に訴える構えを見せた。",         ec:"针对资方的不当处置，工会展现出了进行法律起诉控告的姿态。"},
+  {no:93, cat:"動詞", sub:"",       word:"経る",    read:"へる",         mean:"经过，流逝",       ej:"十年の歳月を経て、あの幻の伝統技法が現代に蘇った。",                   ec:"走过了十年的岁月，那项梦幻的传统技艺在现代复苏了。"},
+  {no:94, cat:"動詞", sub:"",       word:"綻びる",  read:"ほころびる",   mean:"绽开，（脸）松开", ej:"彼のユーモアあふれる発言で、緊迫していた会議室の顔が綻んだ。",       ec:"他一句充满幽默的发言，让原本紧绷的会议室气氛松开来。"},
+  {no:95, cat:"動詞", sub:"",       word:"滅びる",  read:"ほろびる",     mean:"灭亡，灭绝",       ej:"環境破壊が進めば、多くの貴重な物種が滅びる危機に瀕する。",           ec:"如果环境破坏加剧，许多珍贵物种将面临灭绝的危机。"},
+  {no:96, cat:"動詞", sub:"",       word:"廃れる",  read:"すたれる",     mean:"过时，废除",       ej:"流行のファッションは移り変わりが激しく、すぐに廃れてしまう。",       ec:"流行时尚的更替非常剧烈，很快就会过时衰落。"},
+  {no:97, cat:"動詞", sub:"",       word:"阻む",    read:"はばむ",       mean:"阻碍，阻挡",       ej:"悪天候が我々の行く手を阻み、登山隊は一時撤退を余儀なくされた。",   ec:"恶劣的天气阻挡了我们的去路，登山队被迫暂时撤退。"},
+  {no:98, cat:"動詞", sub:"",       word:"睨む",    read:"にらむ",       mean:"盯视，注视",       ej:"警察は今回の事件を、内部の人間による犯行と睨んで捜査している。",     ec:"警方正注视着这起事件，将其作为内部人员作案展开调查。"},
+  {no:99, cat:"動詞", sub:"",       word:"潜む",    read:"ひそむ",       mean:"潜伏，隐藏",       ej:"彼の穏やかな言葉の背後には、強い排斥の意図が潜んでいる。",           ec:"在他温和的言辞背后，隐藏着强烈的排斥意图。"},
+  {no:100,cat:"動詞", sub:"",       word:"試みる",  read:"こころみる",   mean:"尝试",             ej:"複雑な社会問題を打開するため、新たなアプローチを試みた。",             ec:"为了打破复杂的社会问题僵局，尝试了一种新的接近方法。"},
+  // ── 形容詞 ──
+  {no:101,cat:"形容詞",sub:"形動",  word:"敏捷",    read:"びんしょう",   mean:"敏捷，灵活",       ej:"彼は大柄な体格だが、スポーツをしている時の動きは非常に敏捷だ。",     ec:"他虽然体格高大，但在运动时的动作却非常敏捷灵活。"},
+  {no:102,cat:"形容詞",sub:"形",    word:"华々しい",read:"はなばなしい", mean:"辉煌，华丽",       ej:"彼は数々の国家試験を突破し、弁護士として华々しい経歴を築いた。",   ec:"他突破了重重国家考试，作为律师建立起了辉煌的履历。"},
+  {no:103,cat:"形容詞",sub:"形動",  word:"綿密",    read:"めんみつ",     mean:"周密，详尽",       ej:"緻密な検証を行うため、実験の前に綿密な計画が立てられた。",           ec:"为了进行精密的验证，在实验前制定了周密的计划。"},
+  {no:104,cat:"形容詞",sub:"形動",  word:"繊細",    read:"せんさい",     mean:"细腻，纤细",       ej:"彼女が描く絵画は色彩が非常に繊細で、多くの巨匠から絶賛された。",   ec:"她画的画色彩非常细腻，受到了众多巨匠的无上称赞。"},
+  {no:105,cat:"形容詞",sub:"形",    word:"煩わしい",read:"わずらわしい", mean:"麻烦，繁琐",       ej:"都会の煩わしい人間関係から離れて、田舎でのんびり暮らしたい。",     ec:"想远离都市繁琐的人际关系，去乡下悠闲地生活。"},
+  {no:106,cat:"形容詞",sub:"形",    word:"潔い",    read:"いさぎよい",   mean:"干脆，果敢",       ej:"自分の過ちを潔く認めて謝る彼の態度は、実に立派だ。",               ec:"果断承认自己的错误并道歉，他的态度的确十分令人钦佩。"},
+  {no:107,cat:"形容詞",sub:"形動",  word:"円滑",    read:"えんかつ",     mean:"顺利，圆满",       ej:"業務を円滑に遂行するため、部署間のコミュニケーションを強化する。",   ec:"为了顺利完成业务，强化了部门之间的沟通交流。"},
+  {no:108,cat:"形容詞",sub:"形動",  word:"巧妙",    read:"こうみょう",   mean:"巧妙的",           ej:"犯人は巧妙な手口を使って、警察の網羅的な捜査網を潜り抜けた。",     ec:"罪犯用巧妙的手法，瞒过了警方天罗地网般的搜查网。"},
+  {no:109,cat:"形容詞",sub:"形動",  word:"健やか",  read:"すこやか",     mean:"健康，健全",       ej:"子供たちが健やかに成長できる環境を整えるのが、行政の役目だ。",     ec:"整理好让孩子们健康成长的环境，是行政部门的职责。"},
+  {no:110,cat:"形容詞",sub:"形動",  word:"穏やか",  read:"おだやか",     mean:"平稳，温和",       ej:"今日の海は非常に穏やかで、船の運行に何の支障もない。",             ec:"今天的海面非常平稳，对船只的航行没有任何妨碍障碍。"},
+  {no:111,cat:"形容詞",sub:"形動",  word:"爽やか",  read:"さわやか",     mean:"清爽，爽朗",       ej:"朝の澄んだ空気を吸い込むと、非常に爽やかな気分になる。",           ec:"吸入早晨清澈的空气，心情变得非常清爽爽朗。"},
+  {no:112,cat:"形容詞",sub:"形",    word:"夥しい",  read:"おびただしい", mean:"大量的，相当",     ej:"事故の現場には、夥しい数の警察官が駆けつけて捜査を行った。",       ec:"事故现场聚集了数量惊人的警察赶来展开搜查。"},
+  {no:113,cat:"形容詞",sub:"形動",  word:"膨大",    read:"ぼうだい",     mean:"庞大，巨大",       ej:"過去の膨大な資料をすべて分析するには、多大な時間を費やす。",       ec:"要分析完全部历史庞大的资料，需要耗费巨额的时间。"},
+  {no:114,cat:"形容詞",sub:"形動",  word:"厳正",    read:"げんせい",     mean:"严格，严正",       ej:"提出された誓約書に基づき、違反者には厳正な処分が下される。",       ec:"基于提交的承诺书，违规者受到了严正的处分。"},
+  {no:115,cat:"形容詞",sub:"形動",  word:"微か",    read:"かすか",       mean:"微弱，隐约",       ej:"森の奥深くから、微かな物音が聞こえたような気がした。",               ec:"仿佛觉得从森林深处传来了一阵隐约的响动。"},
+  {no:116,cat:"形容詞",sub:"形動",  word:"深刻",    read:"しんこく",     mean:"严重，重大",       ej:"少子高齢化に伴う労働力不足は、現代社会の深刻な課題だ。",           ec:"伴随着少子高龄化的劳动力不足，是现代社会重大的严重课题。"},
+  {no:117,cat:"形容詞",sub:"形",    word:"儚い",    read:"はかない",     mean:"短暂，虚幻",       ej:"満開の桜の花は、雨が降ると儚く散ってしまう。",                       ec:"满开的樱花，一旦下雨就会转瞬即逝短暂地散落。"},
+  {no:118,cat:"形容詞",sub:"形",    word:"凄まじい",read:"すさまじい",   mean:"惊人的，厉害",     ej:"科学技術の進化は凄まじい勢いで進み、世界を一変させた。",           ec:"科学技术的进化正以惊人的势头推进，彻底改变了世界。"},
+  {no:119,cat:"形容詞",sub:"形",    word:"喧しい",  read:"やかましい",   mean:"吵闹，繁琐",       ej:"上司は品質の管理に対して非常に喧しく、細部までチェックする。",     ec:"上司对质量管理要求非常繁琐严苛，连细节都要一一核对。"},
+  {no:120,cat:"形容詞",sub:"形",    word:"慌ただしい",read:"あわただしい",mean:"匆忙，慌张",      ej:"年末のオフィスは、業務の締め切りと新年の準備で慌ただしい。",       ec:"年底的办公室，因业务截止和新年准备而显得十分匆忙。"},
+  {no:121,cat:"形容詞",sub:"形動",  word:"大らか",  read:"おおらか",     mean:"胸襟开阔",         ej:"彼は大らかな人柄で、些細なミスを咎めるようなことはしない。",       ec:"他胸襟开阔，绝不会去责备细微的错误。"},
+  {no:122,cat:"形容詞",sub:"形",    word:"鮮やか",  read:"あざやか",     mean:"鲜艳，巧妙",       ej:"職人は実に見事な手際で、伝統の絵柄を鮮やかに染め上げた。",         ec:"匠人以真正精妙的手法，将传统的图案鲜艳地染了出来。"},
+  {no:123,cat:"形容詞",sub:"形",    word:"著しい",  read:"いちじるしい", mean:"显著的",           ej:"近年の人工知能の発展には著しいものがあり、産業構造を変えた。",     ec:"近年来人工智能的发展有着显著的进步，改变了产业结构。"},
+  {no:124,cat:"形容詞",sub:"形",    word:"容易い",  read:"たやすい",     mean:"容易，轻而易举",   ej:"過去の経験から見ても、その課題をクリアするのは容易いことではない。",ec:"从过去的经验来看，要想攻克那个课题也绝非易事。"},
+  {no:125,cat:"形容詞",sub:"形動",  word:"過密",    read:"かみつ",       mean:"过密，集中",       ej:"都市部への人口の過密化により、住宅不足が深刻化している。",         ec:"随着人口向都市圈过密集中，住宅不足正日益严重。"},
+  {no:126,cat:"形容詞",sub:"形動",  word:"頑な",    read:"かたくな",     mean:"顽固，固执",       ej:"彼は周囲の忠告を無視し、自分のスタイルを頑なに守り続けた。",     ec:"他无视周围的忠告，固执地继续坚守自己的风格。"},
+  {no:127,cat:"形容詞",sub:"形動",  word:"執拗",    read:"しつよう",     mean:"执着的，固执的",   ej:"彼は自分の主張が通るまで、執拗に議論を続けようとした。",           ec:"他在自己的主张获得通过前，固执地试图继续讨论。"},
+  {no:128,cat:"形容詞",sub:"形動",  word:"緻密",    read:"ちみつ",       mean:"细致，精密",       ej:"彼の研究計画は非常に緻密で、データの検証も周到に行われている。",   ec:"他的研究计划非常细致精密，数据的验证也进行得周到缜密。"},
+  {no:129,cat:"形容詞",sub:"形動",  word:"疎か",    read:"おろそか",     mean:"疏忽，不认真",     ej:"忙しいからといって、基礎の練習を疎かにしてはならない。",           ec:"虽说工作繁忙，但也绝不能疏忽了基础的练习。"},
+  {no:130,cat:"形容詞",sub:"形",    word:"醜い",    read:"みにくい",     mean:"丑陋的",           ej:"遺産をめぐって、親族間で醜い争いが何年も続いている。",             ec:"围绕着遗产，亲属之间丑陋的争斗已经持续了多年。"},
+  {no:131,cat:"形容詞",sub:"形",    word:"渋い",    read:"しぶい",       mean:"苦涩的，古朴的",   ej:"彼はまだ若いのに、お茶の渋い味わいを好むなど趣味が落ち着いている。",ec:"他虽然还年轻，但喜欢茶的苦涩味道，爱好很沉稳。"},
+  {no:132,cat:"形容詞",sub:"形",    word:"虚しい",  read:"むなしい",     mean:"空虚的，徒劳的",   ej:"いくら努力しても結果に結びつかず、虚しい気持ちになった。",         ec:"无论怎么努力都无法转化为成果，心里产生了一种空虚感。"},
+  {no:133,cat:"形容詞",sub:"形",    word:"紛らわしい",read:"まぎらわしい",mean:"易混淆的",        ej:"二つの商品の名前が非常に紛らわしいため、買い間違える人が多い。",   ec:"两种商品的名字非常容易混淆，所以买错的人很多。"},
+  {no:134,cat:"形容詞",sub:"形",    word:"呆気ない",read:"あっけない",   mean:"不过瘾的，简单的", ej:"楽しみにしていた決勝戦だったが、わずか5分で呆気なく終わった。",   ec:"虽是期待已久的决赛，却在短短5分钟内不过瘾地结束了。"},
+  {no:135,cat:"形容詞",sub:"形動",  word:"頑丈",    read:"がんじょう",   mean:"结实，坚固",       ej:"この家具は頑丈な木材で作られており、何十年も使いこなせる。",       ec:"这件家具是用坚固结实的木材打造的，可以熟练用上几十年。"},
+  {no:136,cat:"形容詞",sub:"形",    word:"芳しい",  read:"かんばしい",   mean:"良好的（后接否定）",ej:"今期の営業成績はあまり芳しくなく、組織の改革が求められる。",     ec:"本期的营业成绩不太良好，被要求对组织进行改革。"},
+  {no:137,cat:"形容詞",sub:"形",    word:"粗い",    read:"あらい",       mean:"粗糙，粗",         ej:"この報告書はデータの検証が粗く、原本としての価値が低い。",         ec:"这份报告书的数据验证很粗糙，作为原本的价值很低。"},
+  {no:138,cat:"形容詞",sub:"形",    word:"鈍い",    read:"にぶい",       mean:"迟钝，暗淡",       ej:"彼は頭脳明晰だが、他人の感情の起伏を察するのには鈍い。",           ec:"他虽然头脑聪明，但在察觉他人情绪波动时却很迟钝。"},
+  {no:139,cat:"形容詞",sub:"形動",  word:"崇高",    read:"すうこう",     mean:"崇高，高尚",       ej:"人命を救うという崇高な目的のため、医療チームが現地に赴いた。",   ec:"为了拯救人命这一崇高目的，医疗队前往了当地。"},
+  {no:140,cat:"形容詞",sub:"形",    word:"相応しい",read:"ふさわしい",   mean:"适合的，相称的",   ej:"彼のこれまでの素晴らしい手腕に相応しい、最高のポジションが与えられた。",ec:"赐予了他与其至今精妙才干相称的、最好的职位。"},
+  // ── 副詞 ──
+  {no:141,cat:"副詞", sub:"",       word:"やんわり", read:"",            mean:"委婉地",           ej:"先輩からの無理な誘いを、角が立たないようにやんわり断った。",       ec:"以前辈提出的无理邀请，为了不伤和气委婉地拒绝了。"},
+  {no:142,cat:"副詞", sub:"",       word:"うんざり", read:"",            mean:"厌烦",             ej:"毎日同じようなトラブルの弁解を聞かされて、完全にうんざりした。", ec:"每天都被迫听着同样纠纷的辩解，完全感到厌烦了。"},
+  {no:143,cat:"副詞", sub:"",       word:"ひとまず", read:"",            mean:"暂且，姑且",       ej:"詳しい報告は後でするとして、ひとまず結果だけ伝えます。",           ec:"详细报告稍后再做，首先只把结果传达给你。"},
+  {no:144,cat:"副詞", sub:"",       word:"じっくり", read:"",            mean:"仔细地，踏实",     ej:"将来の抱負について、時間をかけてじっくり考えるべきだ。",           ec:"关于将来的抱负，应当花时间仔细踏实地思考。"},
+  {no:145,cat:"副詞", sub:"",       word:"ちらっと", read:"",            mean:"一晃，一闪",       ej:"彼のスマートフォンの画面がちらっと見え、メッセージに気づいた。",   ec:"他的手机屏幕一晃而过地看见了，注意到了信息内容。"},
+  {no:146,cat:"副詞", sub:"",       word:"ざっと",  read:"",             mean:"粗略地，简单地",   ej:"提出する前に、契約書の内容に間違いがないかざっと確認した。",       ec:"在提交前，粗略地确认了一遍契约书的内容是否有错。"},
+  {no:147,cat:"副詞", sub:"",       word:"一向に",  read:"いっこうに",   mean:"一点也（后接否定）",ej:"いくら薬を処置しても、母の体調は一向に良くならない。",           ec:"无论怎么进行药物医疗处理，母亲的身体也一点不见好转。"},
+  {no:148,cat:"副詞", sub:"",       word:"急遽",    read:"きゅうきょ",   mean:"急遽，仓促",       ej:"台風が接近しているため、明日のイベントは急遽中止となった。",       ec:"由于台风接近，明天的活动仓促取消了。"},
+  {no:149,cat:"副詞", sub:"",       word:"極めて",  read:"きわめて",     mean:"极其，非常",       ej:"その実験を成功させることは、技術的に極めて困難である。",           ec:"使那项实验获得成功，在技术上是极其困难的。"},
+  {no:150,cat:"副詞", sub:"",       word:"くれぐれも",read:"",           mean:"千万，万分",       ej:"インフルエンザが流行しているので、くれぐれもご自愛ください。",     ec:"流感盛行，请千万保重身体。"},
+  {no:151,cat:"副詞", sub:"",       word:"断固",    read:"だんこ",       mean:"断然，坚决",       ej:"会社側の一方的な給与削減に対し、組合は断固反対の姿勢をとった。", ec:"针对资方的单方面削减工资，工会采取了坚决反对的态度。"},
+  {no:152,cat:"副詞", sub:"",       word:"着々と",  read:"ちゃくちゃくと",mean:"稳步地，顺利地",  ej:"来月の開店に向けて、新店舗の準備は着々と進んでいる。",             ec:"为了下个月的开张，新店铺的准备正在稳步推进。"},
+  {no:153,cat:"副詞", sub:"",       word:"一概に",  read:"いちがいに",   mean:"一概，一律（后接否定）",ej:"値段が高いからといって、一概に品質が良いとは限らない。",     ec:"虽说价格昂贵，但并不一概意味着质量好。"},
+  {no:154,cat:"副詞", sub:"",       word:"果たして",read:"はたして",     mean:"果真，到底",       ej:"彼の言っている計画は、果たして本当に実現可能なのだろうか。",       ec:"他说的那项计划，到底真的具有可行性吗。"},
+  {no:155,cat:"副詞", sub:"",       word:"あらかじめ",read:"",           mean:"预先，事先",       ej:"会議がスムーズに進むよう、必要な資料をあらかじめ配布しておく。", ec:"为了使会议顺利进行，事先将所需的资料分发好。"},
+  {no:156,cat:"副詞", sub:"",       word:"わざわざ",read:"",             mean:"特意，专门",       ej:"遠いところをわざわざお越しいただき、誠にありがとうございました。",ec:"非常感谢您在遥远的地方特意赶来。"},
+  {no:157,cat:"副詞", sub:"",       word:"せいぜい",read:"",             mean:"充其量，最多",     ej:"私の英語のレベルでは、せいぜい日常会話ができる程度だ。",           ec:"以我的英语水平，充其量也就是能进行日常对话的程度。"},
+  {no:158,cat:"副詞", sub:"",       word:"依然として",read:"いぜんとして",mean:"依然，依然如故",  ej:"政府は対策を打ち出しているが、失業率は依然として高いままだ。",   ec:"虽然政府出台了对策，但失业率依然居高不下。"},
+  {no:159,cat:"副詞", sub:"",       word:"敢えて",  read:"あえて",       mean:"敢于，硬要",       ej:"厳しい状況であることは知っていたが、私は敢えてその挑戦を選んだ。",ec:"虽然知道情况严峻，但我还是敢于选择了那一挑战。"},
+  {no:160,cat:"副詞", sub:"",       word:"終日",    read:"しゅうじつ",   mean:"整天，终日",       ej:"昨日は大雨の影響で電車のダイヤが乱れ、終日混雑が続いた。",       ec:"昨天受大雨影响列车时刻表被打乱，整天持续着拥挤。"},
+  {no:161,cat:"副詞", sub:"",       word:"辛うじて",read:"かろうじて",   mean:"勉强，好不容易",   ej:"毎日夜遅くまで勉強したおかげで、試験に辛うじて合格できた。",     ec:"多亏每天学习到深夜，考试总算勉强及格了。"},
+  {no:162,cat:"副詞", sub:"",       word:"努めて",  read:"つとめて",     mean:"尽量，尽可能",     ej:"トラブルが起きた時こそ、努めて冷静に行動することが求められる。", ec:"正是在发生故障时，才更需要尽可能冷静地采取行动。"},
+  {no:163,cat:"副詞", sub:"",       word:"絶えず",  read:"たえず",       mean:"不断地，经常",     ej:"技術の進歩に遅れないよう、最新の情報を絶えずチェックしている。", ec:"为了不落后于技术进步，经常不断地查阅着最新信息。"},
+  {no:164,cat:"副詞", sub:"",       word:"到底",    read:"とうてい",     mean:"无论如何也（后接否定）",ej:"これほど膨大な資料は、一人では明日までに到底読みきれない。", ec:"如此庞大的资料，一个人到明天为止无论如何也读不完。"},
+  {no:165,cat:"副詞", sub:"",       word:"突如",    read:"とつじょ",     mean:"突如其来地",       ej:"静まり返った夜の街に、突如として激しい爆発音が響き渡った。",     ec:"在万籁俱寂的夜街上，突如其来地响彻起剧烈的爆炸声。"},
+  {no:166,cat:"副詞", sub:"",       word:"専ら",    read:"もっぱら",     mean:"主要，专门",       ej:"最近の休日は外出をせず、専ら自宅で読書をして過ごしている。",     ec:"最近的休息日我不出门，主要在家里读书度过。"},
+  {no:167,cat:"副詞", sub:"",       word:"正しく",  read:"まさしく",     mean:"正是，确实",       ej:"科学技術の進歩は、正しく人々の生活を劇的に変えたと言える。",     ec:"可以说，科学技术的进步确实剧烈地改变了人们的生活。"},
+  {no:168,cat:"副詞", sub:"",       word:"もはや",  read:"",             mean:"已经（多用于消极）",ej:"経営がここまで悪化すると、この会社を救う手立てはもはやない。", ec:"经营恶化到这种地步，这家公司已经无药可救了。"},
+  {no:169,cat:"副詞", sub:"",       word:"かつて",  read:"",             mean:"曾经，以前",       ej:"この町は、かつて炭鉱の町として大いに栄えていた歴史がある。",     ec:"这座城镇历史上曾经作为煤矿小镇而非常繁荣。"},
+  {no:170,cat:"副詞", sub:"",       word:"さぞ",    read:"",             mean:"想必，一定是",     ej:"一人きりで異国の地に暮らすのは、さぞ寂しいことだろう。",         ec:"独自一人生活在异国地，想必是一件非常寂寞的事吧。"},
+  {no:171,cat:"副詞", sub:"",       word:"てっきり",read:"",             mean:"一定，原以为",     ej:"電気が消えていたので、彼はてっきりもう寝たものだと思った。",     ec:"因为灯灭着，我原以为他一定已经睡了。"},
+  {no:172,cat:"副詞", sub:"",       word:"まさか",  read:"",             mean:"难道，怎么也想不到",ej:"普段は大人しい彼が、あのような大事件を起こすとはまさか思わなかった。",ec:"怎么也想不到平时温顺的他会做出那样的大事。"},
+  {no:173,cat:"副詞", sub:"",       word:"一切",    read:"いっさい",     mean:"一切，完全（后接否定）",ej:"私はその事件に関して、一切の関与をしていないと断言する。",   ec:"我断言，关于那一事件我完全没有参与。"},
+  {no:174,cat:"副詞", sub:"",       word:"自ずと",  read:"おのずと",     mean:"自然而然地",       ej:"毎日練習を積み重ねていけば、結果は自ずとついてくるものだ。",     ec:"只要每天坚持练习的积累，成果自然而然会有的。"},
+  {no:175,cat:"副詞", sub:"",       word:"みっちり",read:"",             mean:"充分地，严格地",   ej:"巨匠の指導のもとで、伝統の技法を3年間みっちり仕込まれた。",     ec:"在巨匠的指导下，用3年时间充分严格地掌握了传统技艺。"},
+  {no:176,cat:"副詞", sub:"",       word:"めっきり",read:"",             mean:"显著地，急剧",     ej:"朝晩の冷え込みが激しくなり、秋の深まりをめっきり感じる。",       ec:"早晚的降温变得剧烈，急剧显著地感受到了秋意渐浓。"},
+  {no:177,cat:"副詞", sub:"",       word:"つくづく",read:"",             mean:"痛切地，深切地",   ej:"過去の失敗を顧みるにつけ、自分の軽率さをつくづく嫌悪する。",   ec:"每次回顾过去的失败，都深切痛切地厌恶自己的轻率。"},
+  {no:178,cat:"副詞", sub:"",       word:"じわじわ",read:"",             mean:"一点一点地，慢慢地",ej:"新税制の導入による影響が、中小企業の経営にじわじわ現れてきた。",ec:"引入新税制造成的影响，正一点一点慢慢地在中小企业的经营中显现出来。"},
+  {no:179,cat:"副詞", sub:"",       word:"とっさに",read:"",             mean:"瞬间，刹那间",     ej:"目の前に車が飛び出してきたので、とっさにハンドルを切った。",     ec:"眼前突然冲出来一辆车，瞬间刹那间猛打了一把方向盘。"},
+  {no:180,cat:"副詞", sub:"",       word:"うすうす",read:"",             mean:"稍稍，隐约",       ej:"彼の態度から、今回のプロジェクトが難航していることをうすうす察していた。",ec:"从他的态度中，隐约稍稍察觉到了这次项目进展艰难。"},
+  // ── 外来語 ──
+  {no:181,cat:"外来語",sub:"名/サ変",word:"キープ",   read:"",           mean:"保持，维持",       ej:"予断を許さない市場環境の中で、業界トップのシェアをキープする。",   ec:"在不容预先判断的行业环境中，维持住业界第一的市场份额。"},
+  {no:182,cat:"外来語",sub:"名/サ変",word:"フォロー",  read:"",           mean:"帮助，辅助",       ej:"新人のミスを周囲がしっかりフォローし、トラブルの拡大を防いだ。", ec:"周围人认真帮助辅助了新人的失误，防止了纠纷扩大。"},
+  {no:183,cat:"外来語",sub:"名",     word:"キャリア",  read:"",           mean:"职业生涯",         ej:"彼女はビジネスの第一線で、長年にわたりキャリアを積み重ねてきた。",ec:"她在商务第一线，历经多年不断积累着职业生涯履历。"},
+  {no:184,cat:"外来語",sub:"名",     word:"ベテラン",  read:"",           mean:"老手，老练的人",   ej:"ベテランの職人が持つ緻密な手技は、到底真似できるものではない。",   ec:"老练老手匠人所拥有的精密手艺，是无论如何也模仿不来的。"},
+  {no:185,cat:"外来語",sub:"名",     word:"ポジション", read:"",          mean:"职位，地位",       ej:"彼は長年の功労が認められ、組織の中枢である重要なポジションに就いた。",ec:"他多年的功绩受到认可，就任了组织中枢的重要职位。"},
+  {no:186,cat:"外来語",sub:"名",     word:"ニュアンス", read:"",          mean:"语气，语感",       ej:"言葉の微妙なニュアンスの違いを正確に把握することは、容易ではない。",ec:"正确掌握语言微妙语感的差别，绝非易事。"},
+  {no:187,cat:"外来語",sub:"名",     word:"センス",    read:"",           mean:"感觉，审美能力",   ej:"彼女がデザインした最新の服は、抜群のセンスが感じられる。",           ec:"她设计的最新服装，让人感受到了超群的审美能力品味。"},
+  {no:188,cat:"外来語",sub:"名/サ変",word:"ストック",  read:"",           mean:"库存，储存",       ej:"災害に備えて、非常用の食料や飲料水を十分にストックしておく。",     ec:"防备灾害，将非常用食粮和饮用水充分储存库存好。"},
+  {no:189,cat:"外来語",sub:"名",     word:"シェア",    read:"",           mean:"市场占有率",       ej:"我が社は新商品の開発により、世界市場でのシェアを大幅に拡大した。",ec:"我公司通过新商品的研发，大幅扩大了在全球市场的占有率。"},
+  {no:190,cat:"外来語",sub:"名",     word:"コントラスト",read:"",         mean:"对比，对照",       ej:"青い海と白い砂浜のコントラストが、実に鮮やかで美しい。",           ec:"蔚蓝大海与洁白沙滩的对比，的确十分显眼华丽而美丽。"},
+  {no:191,cat:"外来語",sub:"名",     word:"ハードル",  read:"",           mean:"困难，难关",       ej:"この国家試験を突破するのは非常にハードルが高いと言われている。",   ec:"据说想要突破这项国家考试，其难关门槛非常之高。"},
+  {no:192,cat:"外来語",sub:"名",     word:"コスト",    read:"",           mean:"成本，价格",       ej:"開発にかかるコストを削減しなければ、市場競争に勝てない。",           ec:"如果不削减研发所耗费的成本，就无法在市场竞争中获胜。"},
+  {no:193,cat:"外来語",sub:"名",     word:"クレーム",  read:"",           mean:"抱怨，索赔",       ej:"顧客からのクレームに対し、迅速かつ丁寧な対応を施した。",           ec:"针对顾客发出的抱怨投诉，施加了迅速且礼貌的应对。"},
+  {no:194,cat:"外来語",sub:"名",     word:"ライフワーク",read:"",         mean:"终身事业",         ej:"彼は日本の伝統文化の研究を、自らのライフワークと定めている。",     ec:"他把日本传统文化的研究，定为了自己的终身事业。"},
+  {no:195,cat:"外来語",sub:"名",     word:"タイミング",read:"",           mean:"时机",             ej:"投資を行う時は、市場の動向を見極めて最高のタイミングを狙うべきだ。",ec:"进行投资时，应当审视市场动向，瞄准最佳时机。"},
+  {no:196,cat:"外来語",sub:"名",     word:"プライド",  read:"",           mean:"自尊心",           ej:"彼はプライドが高く、自分の過ちを潔く認めることができない。",       ec:"他自尊心极强，无法果断承认自己的错误。"},
+  {no:197,cat:"外来語",sub:"名",     word:"トラブル",  read:"",           mean:"纠纷，故障",       ej:"取引先との契約書をめぐって、重大なトラブルが発生してしまった。",   ec:"围绕与客户的契约书，发生了重大的纠纷故障。"},
+  {no:198,cat:"外来語",sub:"名",     word:"プレッシャー",read:"",         mean:"压力",             ej:"決勝戦を前にして、選手たちはかつてない強いプレッシャーを感じていた。",ec:"在决赛面前，选手们感受到了前所未有的剧烈压力。"},
+  {no:199,cat:"外来語",sub:"名",     word:"トレンド",  read:"",           mean:"倾向，流行趋势",   ej:"最新の経済のトレンドを把握するため、毎朝社論を読んでいる。",       ec:"为了掌握最新的经济流行趋势，每天早晨都在阅读社论。"},
+  {no:200,cat:"外来語",sub:"名/サ変",word:"リード",    read:"",           mean:"领先，引导",       ej:"技術開発において他社をリードすることが、企業の生存戦略だ。",       ec:"在技术开发中领先于其他公司，是企业的生存战略。"},
+  // ── 接続詞 ──
+  {no:201,cat:"接続詞",sub:"",       word:"したがって",read:"",           mean:"因此，所以",       ej:"彼は16年間毎日猛勉強をした。したがって、N1試験に合格したのは当然だ。",ec:"他16年里每天拼命复习。因此，N1考试合格是理所当然的。"},
+  {no:202,cat:"接続詞",sub:"",       word:"ただし",   read:"",            mean:"但是，不过",       ej:"セミナーの参加費は無料です。ただし、事前の申し込みが必要となります。",ec:"讲座的参加费是免费的。不过，需要提前进行报名。"},
+  {no:203,cat:"接続詞",sub:"",       word:"あるいは", read:"",            mean:"或者，或者是",     ej:"お支払いは現金のほか、あるいはカードや電子マネーでも可能です。",   ec:"付款除了现金以外，或者用刷卡、电子货币支付也是可以的。"},
+  {no:204,cat:"接続詞",sub:"",       word:"そこで",   read:"",            mean:"于是，因此",       ej:"道に迷ってしまった。そこで、近くの交番の警察官に聞くことにした。", ec:"我不小心迷路了。于是，决定向附近岗亭的警察询问。"},
+  {no:205,cat:"接続詞",sub:"",       word:"ところで", read:"",            mean:"话说，顺便问下",   ej:"もうすぐ7月5日ですね。ところで、試験の準備は着実に進んでいますか。",ec:"马上就要到7月5日了呢。话说回来，考试的准备正稳步推进吗？"},
+  {no:206,cat:"接続詞",sub:"",       word:"しかも",   read:"",            mean:"而且，并且",       ej:"この店の料理は非常に美味しくて、しかも値段が格安である。",         ec:"这家店的饭菜非常地好吃，而且价格格外便宜。"},
+  {no:207,cat:"接続詞",sub:"",       word:"さらに",   read:"",            mean:"更加，再",         ej:"台風が接近しており、雨と風は今後さらに激しくなる見込みです。",     ec:"台风正接近，预计降雨和风势今后将会更加猛烈。"},
+  {no:208,cat:"接続詞",sub:"",       word:"すなわち", read:"",            mean:"也就是说，即",     ej:"彼女は私の母の姉、すなわち私にとっての伯母にあたります。",         ec:"她是我母亲的姐姐，也就是说，相当于我的大姨。"},
+  {no:209,cat:"接続詞",sub:"",       word:"要するに", read:"",            mean:"总而言之",         ej:"彼は色々と理由を弁解しているが、要するに行きたくないのだ。",       ec:"虽然他为了各种理由在进行辩解，简而言之他就是不想去。"},
+  {no:210,cat:"接続詞",sub:"",       word:"つまり",   read:"",            mean:"也就是说",         ej:"来月、日本の首都、つまり東京の拠点へ出張することになりました。",   ec:"下个月，我被决定去日本的首都，也就是说东京的据点出差。"},
+];
+
+const TOTAL = WORDS.length;
+let states  = {};
+let showCn  = {};
+let currentFilter = 'all';
+let currentCat    = '';
+let searchQ = '';
+
+try { states = JSON.parse(localStorage.getItem('n1july_states') || '{}'); } catch(e){}
+try { showCn = JSON.parse(localStorage.getItem('n1july_cn')     || '{}'); } catch(e){}
+
+function save() {
+  try {
+    localStorage.setItem('n1july_states', JSON.stringify(states));
+    localStorage.setItem('n1july_cn',     JSON.stringify(showCn));
+  } catch(e){}
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function highlightWordInExample(ej, word) {
+  if (!word || !ej) return ej;
+  // Clean the word: strip trailing conjugation markers and parentheticals
+  // e.g. "掲げる"→"掲げ", "潤う"→"潤", "健やか"→"健やか", "着々と"→"着々"
+  let clean = word.replace(/[\(（][^)）]*[\)）]/g, '').trim();
+
+  // Build list of stems to try, from longest to shortest
+  const stems = new Set();
+  stems.add(clean); // full form first
+
+  // Strip common verb/adj endings to get stem
+  const stripEndings = [
+    /[うくぐすつぬぶむるいい]$/,   // plain form verb/i-adj ending
+    /[える][る]?$/,               // ichidan
+    /[ある]$/,
+    /[いう]$/,
+    /[る]$/,
+  ];
+  let s = clean;
+  for (const re of stripEndings) {
+    const t = s.replace(re, '');
+    if (t.length >= 1 && t !== s) { stems.add(t); break; }
+  }
+
+  // Also try removing the last 1 char if word is long enough
+  if (clean.length >= 3) stems.add(clean.slice(0, -1));
+  if (clean.length >= 4) stems.add(clean.slice(0, -2));
+
+  // Sort stems longest first so we match the most specific
+  const sortedStems = [...stems].sort((a, b) => b.length - a.length);
+
+  let result = ej;
+  for (const stem of sortedStems) {
+    if (!stem || stem.length < 1) continue;
+    const escaped = stem.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Match the stem followed by any hiragana continuation (conjugation)
+    const re = new RegExp(`(${escaped}[ぁ-ん]*)`, 'g');
+    const replaced = result.replace(re, '<span class="word-hl">$1</span>');
+    if (replaced !== result) { result = replaced; break; }
+  }
+  return result;
+}
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  const q = searchQ.trim().toLowerCase();
+  let visible = 0;
+  let html = '';
+
+  WORDS.forEach((w, i) => {
+    const st = states[i] || 'none';
+    const cn = showCn[i] || false;
+
+    if (currentFilter === 'marked'   && st !== 'marked')   return;
+    if (currentFilter === 'mastered' && st !== 'mastered') return;
+    if (currentFilter === 'unmarked' && st !== 'none')     return;
+    if (currentCat && w.cat !== currentCat) return;
+
+    const hay = (w.word + w.read + w.mean + w.ej + w.ec).toLowerCase();
+    if (q && !hay.includes(q)) return;
+
+    visible++;
+    const masterCls  = st === 'mastered' ? ' mastered' : '';
+    const markCls    = st === 'marked'   ? ' marked'   : '';
+    const cnCls      = cn ? ' show-cn' : '';
+    const mBtnCls    = st === 'mastered' ? ' on-master' : '';
+    const mkBtnCls   = st === 'marked'   ? ' on-mark'   : '';
+
+    const wH  = highlight(w.word, q);
+    const mnH = highlight(w.mean, q);
+    const ejRed = highlightWordInExample(w.ej, w.word);
+    const ejH = highlight(ejRed, q);
+
+    const readLine = w.read && w.read !== w.word
+      ? `<div class="reading">${w.read}</div>` : '';
+    const subBadge = w.sub
+      ? `<span class="badge-subtype">${w.sub}</span>` : '';
+
+    html += `<div class="card${masterCls}${markCls}${cnCls}" data-cat="${w.cat}" data-idx="${i}">
+  <div class="card-head">
+    <div>
+      <div class="num">${w.no}</div>
+      <div class="word-jp">${wH}</div>
+      ${readLine}
+    </div>
+    <div class="badges">
+      <span class="badge-type badge-${w.cat}">${w.cat}</span>
+      ${subBadge}
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="meaning">${mnH}</div>
+    <div class="example-jp">${ejH}</div>
+    <div class="example-cn">${w.ec}</div>
+  </div>
+  <div class="card-foot">
+    <button class="btn-sm btn-master${mBtnCls}" onclick="toggleMaster(${i},event)">${st==='mastered'?'✓ 已掌握':'○ 掌握'}</button>
+    <button class="btn-sm btn-mark${mkBtnCls}"  onclick="toggleMark(${i},event)">${st==='marked'?'△ 标记中':'△ 要复习'}</button>
+    <button class="btn-sm btn-cn" onclick="toggleCn(${i},event)">${cn?'隐藏译文':'译文'}</button>
+  </div>
+</div>`;
+  });
+
+  if (!visible) html = '<div class="empty">没有符合条件的词语</div>';
+  grid.innerHTML = html;
+  document.getElementById('countBadge').textContent = visible + ' 語';
+  updateProgress();
+}
+
+function toggleMaster(i, e) { e.stopPropagation(); states[i] = (states[i]==='mastered')?'none':'mastered'; save(); renderCards(); }
+function toggleMark(i, e)   { e.stopPropagation(); states[i] = (states[i]==='marked')?'none':'marked';     save(); renderCards(); }
+function toggleCn(i, e)     { e.stopPropagation(); showCn[i] = !showCn[i];                                  save(); renderCards(); }
+
+function updateProgress() {
+  const mastered = Object.values(states).filter(v => v === 'mastered').length;
+  const pct = Math.round(mastered / TOTAL * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `已掌握：${mastered} / ${TOTAL}（${pct}%）`;
+}
+
+// State/category filters
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const same = btn.classList.contains('active');
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    if (!same) { btn.classList.add('active'); currentCat = btn.dataset.cat; }
+    else currentCat = '';
+    renderCards();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQ = e.target.value;
+  renderCards();
+});
+
+renderCards();
+</script>
+</body>
+</html>
