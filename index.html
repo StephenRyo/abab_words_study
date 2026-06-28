@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N1 語彙学習ツール — StephenRyo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+
+  :root {
+    --ink:   #1a1a2e;
+    --muted: #5a5a7a;
+    --dim:   #9090aa;
+    --paper: #f7f5f0;
+    --cream: #ede9e0;
+    --rule:  #d4cfc4;
+    --c1:    #c0392b;
+    --c2:    #2471a3;
+    --c3:    #7d3c98;
+    --c4:    #16a085;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 52px 40px 44px;
+    text-align: center;
+    border-bottom: 4px solid var(--c1);
+  }
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: #8888aa;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .hero-kana {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+  }
+  .hero-kana .c1 { color: #e8a0a0; }
+  .hero-kana .c2 { color: #90c4e8; }
+  .hero-kana .c3 { color: #c8a0e8; }
+  .hero-kana .c4 { color: #80d8c8; }
+
+  .hero-stats {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    border: 1px solid #2a2a44;
+    border-radius: 12px;
+    overflow: hidden;
+    display: inline-flex;
+  }
+  .stat {
+    padding: 14px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    border-right: 1px solid #2a2a44;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.68rem; color: #8888aa; letter-spacing: 0.1em; white-space: nowrap; }
+
+  /* ── Main ── */
+  main {
+    max-width: 900px;
+    margin: 48px auto 60px;
+    padding: 0 24px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1.5px solid var(--rule);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(26,26,46,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26,26,46,0.13);
+  }
+  .card-stripe {
+    height: 4px;
+    width: 100%;
+  }
+  .s1 { background: var(--c1); }
+  .s2 { background: var(--c2); }
+  .s3 { background: var(--c3); }
+  .s4 { background: var(--c4); }
+
+  .card-body { padding: 20px 18px 16px; flex: 1; }
+
+  .card-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+
+  .card-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 7px;
+  }
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
+  }
+  .tag {
+    font-size: 0.64rem;
+    padding: 2px 7px;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .tag.t1 { background: #fdecea; color: var(--c1); }
+  .tag.t2 { background: #e8f4fd; color: var(--c2); }
+  .tag.t3 { background: #f5eafd; color: var(--c3); }
+  .tag.t4 { background: #e4f8f4; color: var(--c4); }
+
+  .card-foot {
+    padding: 10px 18px 12px;
+    border-top: 1px solid var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-count { font-size: 0.76rem; color: var(--dim); }
+  .card-count strong { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-right: 1px; }
+  .card-go {
+    font-size: 0.72rem; color: var(--dim);
+    display: flex; align-items: center; gap: 3px;
+    transition: color 0.15s;
+  }
+  .card:hover .card-go { color: var(--ink); }
+
+  /* ── Tip ── */
+  .tip {
+    margin-top: 32px;
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.85;
+    border-left: 3px solid var(--rule);
+  }
+  .tip strong { color: var(--ink); }
+
+  footer {
+    text-align: center;
+    padding: 18px;
+    font-size: 0.72rem;
+    color: var(--dim);
+    border-top: 1px solid var(--rule);
+    letter-spacing: 0.07em;
+  }
+  footer a { color: var(--dim); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-title">N1 語彙学習ツール</div>
+  <div class="hero-kana">
+    <span class="c1">ABAB</span>・<span class="c2">っ型</span>・<span class="c3">押題</span>・<span class="c4">敬語</span>
+  </div>
+  <div style="margin-top:28px;display:inline-flex;border:1px solid #2a2a44;border-radius:12px;overflow:hidden;">
+    <div class="stat"><span class="stat-num" style="color:#e8a0a0">33</span><span class="stat-label">ABAB叠词</span></div>
+    <div class="stat" style="border-right:1px solid #2a2a44"><span class="stat-num" style="color:#90c4e8">38</span><span class="stat-label">っ促音词</span></div>
+    <div class="stat" style="border-right:1px solid #2a2a44"><span class="stat-num" style="color:#c8a0e8">210</span><span class="stat-label">7月押题</span></div>
+    <div class="stat" style="border-right:1px solid #2a2a44"><span class="stat-num" style="color:#80d8c8">敬</span><span class="stat-label">敬语对照</span></div>
+    <div class="stat"><span class="stat-num">281+</span><span class="stat-label">合計</span></div>
+  </div>
+</div>
+
+<main>
+  <div class="section-label">学習ツール一覧 · 点击进入</div>
+  <div class="cards">
+
+    <a class="card" href="abab_words_study.html">
+      <div class="card-stripe s1"></div>
+      <div class="card-body">
+        <span class="card-icon">🔁</span>
+        <div class="card-title">ABAB型叠词集训</div>
+        <div class="card-desc">擬態語・擬音語中的叠词副词，如「わくわく」「ぐんぐん」，N1阅读高频出现。</div>
+        <div class="tags">
+          <span class="tag t1">副詞</span>
+          <span class="tag">N1-1170</span>
+          <span class="tag">N1-2600</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-count"><strong>33</strong> 語</div>
+        <div class="card-go">进入 →</div>
+      </div>
+    </a>
+
+    <a class="card" href="sokuon_words_study.html">
+      <div class="card-stripe s2"></div>
+      <div class="card-body">
+        <span class="card-icon">っ</span>
+        <div class="card-title">促音词集训</div>
+        <div class="card-desc">含っ的纯假名副词，如「きっちり」「てっきり」「ぞっとする」，音近易混，专项攻克。</div>
+        <div class="tags">
+          <span class="tag t2">副詞</span>
+          <span class="tag t2">形容詞</span>
+          <span class="tag">N1-1170</span>
+          <span class="tag">N1-2600</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-count"><strong>38</strong> 語</div>
+        <div class="card-go">进入 →</div>
+      </div>
+    </a>
+
+    <a class="card" href="n1_july2026_vocab.html">
+      <div class="card-stripe s3"></div>
+      <div class="card-body">
+        <span class="card-icon">📋</span>
+        <div class="card-title">2026年7月 N1押题</div>
+        <div class="card-desc">树先生日语终极押题，名词・动词・形容词・副词・外来语・接续词六大分类全覆盖。</div>
+        <div class="tags">
+          <span class="tag t3">名詞 50</span>
+          <span class="tag t3">動詞 50</span>
+          <span class="tag t3">形容詞 40</span>
+          <span class="tag t3">副詞 40</span>
+          <span class="tag">外来語 20</span>
+          <span class="tag">接続詞 10</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-count"><strong>210</strong> 語</div>
+        <div class="card-go">进入 →</div>
+      </div>
+    </a>
+
+    <a class="card" href="keigo_compare.html">
+      <div class="card-stripe s4"></div>
+      <div class="card-body">
+        <span class="card-icon">🎌</span>
+        <div class="card-title">敬語対照表</div>
+        <div class="card-desc">尊敬語・謙譲語・丁寧語の动词对照，掌握职场和商务场合的敬语用法。</div>
+        <div class="tags">
+          <span class="tag t4">尊敬語</span>
+          <span class="tag t4">謙譲語</span>
+          <span class="tag t4">丁寧語</span>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-count"><strong>敬語</strong></div>
+        <div class="card-go">进入 →</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="tip">
+    💡 <strong>使用方法：</strong>每张词汇卡片支持 <strong>○ 掌握</strong>（标绿）和 <strong>△ 要复习</strong>（标黄）两种标记，进度自动保存在浏览器中。点击「译文」可显示／隐藏中文例句，建议先看日文例句自己判断再核对。
+  </div>
+</main>
+
+<footer>
+  StephenRyo · N1 語彙学習ツール ·
+  <a href="https://github.com/StephenRyo/abab_words_study" target="_blank">github.com/StephenRyo/abab_words_study</a>
+</footer>
+
+</body>
+</html>
