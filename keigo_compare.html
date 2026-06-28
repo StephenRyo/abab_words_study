@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>敬語三列対比ノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f7f5f0;font-family:'Noto Sans JP',sans-serif;color:#222;min-height:100vh;}
+
+.page{max-width:1200px;margin:0 auto;padding:2rem 1rem 3rem;}
+h1{font-family:'Shippori Mincho',serif;font-size:22px;text-align:center;color:#2a2a2a;margin-bottom:0.3rem;}
+.sub{text-align:center;font-size:12px;color:#999;margin-bottom:1.75rem;letter-spacing:.06em;}
+
+/* 三列grid */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:700px){.grid{grid-template-columns:1fr;}}
+
+/* 列头 */
+.col-head{border-radius:10px 10px 0 0;padding:10px 14px;text-align:center;}
+.col-head .ja{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:600;}
+.col-head .rule{font-size:11px;margin-top:3px;opacity:.85;}
+.col-head.s{background:#185FA5;color:#fff;}
+.col-head.k{background:#0F6E56;color:#fff;}
+.col-head.t{background:#7A4F1A;color:#fff;}
+
+.col-body{border:1.5px solid #ddd;border-top:none;border-radius:0 0 10px 10px;background:#fff;padding:12px 12px 14px;}
+
+/* 行：一个动词条目 */
+.row{margin-bottom:14px;border-bottom:1px dashed #ebebeb;padding-bottom:12px;}
+.row:last-child{margin-bottom:0;border-bottom:none;padding-bottom:0;}
+
+/* 变换箭头行 */
+.transform{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap;}
+.base{display:inline-block;padding:2px 9px;border-radius:5px;font-size:13px;font-weight:600;border:1.5px solid;}
+.base.s{border-color:#185FA5;color:#185FA5;}
+.base.k{border-color:#0F6E56;color:#0F6E56;}
+.base.t{border-color:#7A4F1A;color:#7A4F1A;}
+.arrow{font-size:15px;color:#aaa;}
+.keigo{font-size:14px;font-weight:700;}
+.keigo.s{color:#185FA5;}
+.keigo.k{color:#0F6E56;}
+.keigo.t{color:#7A4F1A;}
+
+/* 子选项列表（如 申し上げます 的多用途） */
+.sub-list{margin:4px 0 6px 14px;font-size:12px;color:#555;line-height:2;}
+.sub-list li{list-style:none;padding-left:10px;position:relative;}
+.sub-list li::before{content:"·";position:absolute;left:0;color:#aaa;}
+
+/* 例句 */
+.ex-wrap{background:#fafaf8;border-left:3px solid;border-radius:0 6px 6px 0;padding:7px 10px;margin-top:4px;}
+.ex-wrap.s{border-color:#185FA5;}
+.ex-wrap.k{border-color:#0F6E56;}
+.ex-wrap.t{border-color:#7A4F1A;}
+.ex-row{display:flex;align-items:flex-start;gap:7px;}
+.ex-text{flex:1;}
+.ex-ja{font-family:'Shippori Mincho',serif;font-size:13.5px;color:#222;line-height:1.85;}
+.ex-ja em{font-style:normal;font-weight:700;border-bottom:2px solid;}
+.ex-ja em.s{color:#185FA5;border-color:#85B7EB;}
+.ex-ja em.k{color:#0F6E56;border-color:#5DCAA5;}
+.ex-ja em.t{color:#7A4F1A;border-color:#EF9F27;}
+.ex-zh{font-size:11.5px;color:#999;margin-top:2px;line-height:1.6;}
+
+/* 笔记标注 */
+.note{font-size:11.5px;color:#e07b00;background:#fff8ec;border-radius:5px;padding:4px 8px;margin-top:5px;line-height:1.65;}
+
+/* 音声按钮 */
+.play-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;transition:all .15s;}
+.play-btn.s{background:#deeaf7;color:#185FA5;}
+.play-btn.s:hover{background:#185FA5;color:#fff;}
+.play-btn.k{background:#d5ede5;color:#0F6E56;}
+.play-btn.k:hover{background:#0F6E56;color:#fff;}
+.play-btn.t{background:#f5e9d5;color:#7A4F1A;}
+.play-btn.t:hover{background:#7A4F1A;color:#fff;}
+.play-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* 浮动highlight工具栏 */
+.hl-yellow{background:#ffe066;border-radius:2px;padding:0 1px;}
+.hl-green{background:#b6f0b6;border-radius:2px;padding:0 1px;}
+.ann-bold{font-weight:900;color:#c0392b;}
+#annToolbar{position:fixed;z-index:9999;background:#2a2a2a;border-radius:8px;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);display:none;align-items:center;
+  gap:2px;padding:4px 6px;pointer-events:auto;}
+#annToolbar.show{display:flex;}
+.ann-btn{border:none;border-radius:4px;cursor:pointer;width:28px;height:26px;
+  font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:transform .12s;}
+.ann-btn:hover{transform:scale(1.15);}
+.ann-btn.yl{background:#ffe066;color:#7a5c00;}
+.ann-btn.gr{background:#b6f0b6;color:#1a6e1a;}
+.ann-btn.bd{background:transparent;color:#e8c96a;border:1.5px solid #e8c96a;}
+.ann-btn.cl{background:transparent;color:#aaa;border:1.5px solid #555;font-size:12px;}
+.ann-div{width:1px;height:18px;background:rgba(255,255,255,.2);margin:0 2px;}
+
+/* 横向对比高亮行（相同普通形） */
+.row-label{font-size:10.5px;color:#bbb;letter-spacing:.05em;margin-bottom:4px;text-transform:uppercase;}
+
+/* 标记系统 */
+.mark-bar{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.mark-btn{
+  padding:2px 11px;border-radius:20px;border:1.5px solid #ccc;
+  font-size:11px;font-weight:600;cursor:pointer;transition:all .18s;
+  font-family:inherit;background:transparent;color:#bbb;white-space:nowrap;
+}
+.mark-btn:hover{border-color:#999;color:#666;}
+/* 激活态跟随主题色 */
+.col-s .mark-btn.active{border-color:#185FA5;background:#daeaf7;color:#185FA5;}
+.col-k .mark-btn.active{border-color:#0F6E56;background:#cceadd;color:#0F6E56;}
+.col-t .mark-btn.active{border-color:#7A4F1A;background:#f0e0c8;color:#7A4F1A;}
+
+/* row 标记后背景 —— 同色系加深，低饱和 */
+.row{transition:background .2s,border-radius .2s,padding .2s;}
+/* 标记色跟随列主题色 */
+.col-s .row.marked{
+  background:#daeaf7;
+  border-radius:8px;
+  padding:8px 8px 10px;
+  border-bottom-color:#9ac4e8;
+}
+.col-k .row.marked{
+  background:#cceadd;
+  border-radius:8px;
+  padding:8px 8px 10px;
+  border-bottom-color:#8ecfb5;
+}
+.col-t .row.marked{
+  background:#f0e0c8;
+  border-radius:8px;
+  padding:8px 8px 10px;
+  border-bottom-color:#d4a878;
+}
+
+/* 统计栏 */
+.stat-bar{display:flex;gap:12px;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap;}
+.stat-pill{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid;}
+.stat-pill.all{background:#f0efe8;border-color:#bbb;color:#777;}
+.stat-pill.mk{background:#edeae0;border-color:#9e9a8e;color:#5a5040;}
+
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>敬語三列対比ノート</h1>
+  <p class="sub">尊敬語 · 謙譲語 · 丁重語（謙譲語Ⅱ） — 手稿整理版</p>
+  <div class="stat-bar">
+    <span class="stat-pill all" id="stat-all">共 21 项</span>
+    <span class="stat-pill mk" id="stat-mk">◎ 已标记 0</span>
+  </div>
+
+  <!-- 浮动标注工具栏 -->
+  <div id="annToolbar">
+    <button class="ann-btn yl" id="ann-yl">▌</button>
+    <button class="ann-btn gr" id="ann-gr">▌</button>
+    <div class="ann-div"></div>
+    <button class="ann-btn bd" id="ann-bd">B</button>
+    <div class="ann-div"></div>
+    <button class="ann-btn cl" id="ann-cl">✕</button>
+  </div>
+
+  <div class="grid">
+
+    <!-- ═══════════════════════════════
+         列1：尊敬語
+    ═══════════════════════════════ -->
+    <div class="col-s">
+      <div class="col-head s">
+        <div class="ja">尊敬語</div>
+        <div class="rule">抬高对方动作 · 对方↑</div>
+      </div>
+      <div class="col-body">
+
+        <!-- します -->
+        <div class="row" data-rid="1">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="1" onclick="toggleMark(1,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">します</div>
+          <div class="transform">
+            <span class="base s">します</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">なさいます</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('社長は今何をなさっていますか。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="1">社長は今何を<em class="s">なさっています</em>か。</div>
+                <div class="ex-zh">总经理现在在做什么？</div>
+              </div>
+            </div>
+          </div>
+          <div class="note">手稿例：社長 今行 <em>なさっていますか</em></div>
+        </div>
+
+        <!-- 言います -->
+        <div class="row" data-rid="2">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="2" onclick="toggleMark(2,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">言います</div>
+          <div class="transform">
+            <span class="base s">言います</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">おっしゃいます</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('先生がおっしゃったとおりに練習しました。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="2">先生が<em class="s">おっしゃった</em>とおりに練習しました。</div>
+                <div class="ex-zh">我按照老师说的方法练习了。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 食べます／飲みます -->
+        <div class="row" data-rid="3">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="3" onclick="toggleMark(3,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">食べます／飲みます</div>
+          <div class="transform">
+            <span class="base s">食べ・飲みます</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">召し上がります</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('先生はもうお昼を召し上がりましたか。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="3">先生はもうお昼を<em class="s">召し上がりました</em>か。</div>
+                <div class="ex-zh">老师您已经吃过午饭了吗？</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- くれます -->
+        <div class="row" data-rid="4">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="4" onclick="toggleMark(4,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">くれます</div>
+          <div class="transform">
+            <span class="base s">くれます</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">くださいます</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('部長がわざわざアドバイスをくださいました。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="4">部長がわざわざアドバイスを<em class="s">くださいました</em>。</div>
+                <div class="ex-zh">部长特地给了我建议。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 知っています -->
+        <div class="row" data-rid="5">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="5" onclick="toggleMark(5,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">知っています</div>
+          <div class="transform">
+            <span class="base s">知っています</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">ご存じです</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('田中さんはこの件についてご存じでしょうか。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="5">田中さんはこの件について<em class="s">ご存じ</em>でしょうか。</div>
+                <div class="ex-zh">请问田中先生是否知晓这件事？</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- お/ご＋になる -->
+        <div class="row" data-rid="6">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="6" onclick="toggleMark(6,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">通用句型</div>
+          <div class="transform">
+            <span class="base s">お／ご＋V</span>
+            <span class="arrow">→</span>
+            <span class="keigo s">＋になる</span>
+          </div>
+          <div class="ex-wrap s">
+            <div class="ex-row">
+              <button class="play-btn s" onclick="spk('お客様は6時の飛行機でご出発になる予定です。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="6">お客様は6時の飛行機で<em class="s">ご出発になる</em>予定です。</div>
+                <div class="ex-zh">客人计划乘坐6点的航班出发。</div>
+              </div>
+            </div>
+          </div>
+          <div class="note">手稿注：＋になる / になります</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         列2：謙譲語
+    ═══════════════════════════════ -->
+    <div class="col-k">
+      <div class="col-head k">
+        <div class="ja">謙譲語Ⅰ</div>
+        <div class="rule">降低己方动作·方向指向对方 · 己→对方↑</div>
+      </div>
+      <div class="col-body">
+
+        <!-- 行きます・来ます・聞きます -->
+        <div class="row" data-rid="7">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="7" onclick="toggleMark(7,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">行く／来る／聞く／訪ねる</div>
+          <div class="transform">
+            <span class="base k">行き・来・聞きます</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">伺います</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('明日、御社に資料を持って伺います。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="7">明日、御社に資料を持って<em class="k">伺います</em>。</div>
+                <div class="ex-zh">明天我带着资料前往贵公司拜访。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 言います -->
+        <div class="row" data-rid="8">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="8" onclick="toggleMark(8,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">言います（正式）</div>
+          <div class="transform">
+            <span class="base k">言います</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">申し上げます</span>
+          </div>
+          <ul class="sub-list">
+            <li>お礼</li>
+            <li>お詫び</li>
+            <li>お願い</li>
+            <li>ご報告</li>
+            <li>申し上げる通り</li>
+          </ul>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('この度は誠にありがとうございましたと、心より申し上げます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="8">心より御礼を<em class="k">申し上げます</em>。</div>
+                <div class="ex-zh">由衷地向您表示感谢。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 見ます -->
+        <div class="row" data-rid="9">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="9" onclick="toggleMark(9,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">見ます</div>
+          <div class="transform">
+            <span class="base k">見ます</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">拝見します</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('送っていただいた資料を拝見しました。ありがとうございます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="9">送っていただいた資料を<em class="k">拝見しました</em>。ありがとうございます。</div>
+                <div class="ex-zh">我已拜读了您发来的资料，非常感谢。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 会います -->
+        <div class="row" data-rid="10">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="10" onclick="toggleMark(10,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">会います</div>
+          <div class="transform">
+            <span class="base k">会います</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">お目にかかります</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('いつかまたお目にかかりたいと存じます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="10">いつかまた<em class="k">お目にかかりたい</em>と存じます。</div>
+                <div class="ex-zh">希望日后能再次与您见面。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- あげます -->
+        <div class="row" data-rid="11">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="11" onclick="toggleMark(11,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">あげます</div>
+          <div class="transform">
+            <span class="base k">あげます</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">さしあげます</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('弊社のパンフレットをさしあげます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="11">弊社のパンフレットを<em class="k">さしあげます</em>。</div>
+                <div class="ex-zh">我把本公司的宣传册送给您。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 知っています（対人）-->
+        <div class="row" data-rid="12">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="12" onclick="toggleMark(12,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">知っています（对人）</div>
+          <div class="transform">
+            <span class="base k">知っています</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">存じ上げております</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('部長のことは存じ上げております。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="12">部長のことは<em class="k">存じ上げております</em>。</div>
+                <div class="ex-zh">我早就知道部长您了。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- お/ご＋ある -->
+        <div class="row" data-rid="13">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="13" onclick="toggleMark(13,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">通用句型</div>
+          <div class="transform">
+            <span class="base k">お／ご＋V</span>
+            <span class="arrow">→</span>
+            <span class="keigo k">＋ある → いたす</span>
+          </div>
+          <div class="ex-wrap k">
+            <div class="ex-row">
+              <button class="play-btn k" onclick="spk('明日の午前中にお電話いたします。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="13">明日の午前中に<em class="k">お電話いたします</em>。</div>
+                <div class="ex-zh">我明天上午给您打电话。</div>
+              </div>
+            </div>
+          </div>
+          <div class="note">手稿：お/ご＋ある → 明日の午前中にお電話いたします</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         列3：丁重語（謙譲語Ⅱ）
+    ═══════════════════════════════ -->
+    <div class="col-t">
+      <div class="col-head t">
+        <div class="ja">丁重語（謙譲語Ⅱ）</div>
+        <div class="rule">郑重表达己方 · 不必然指向对方</div>
+      </div>
+      <div class="col-body">
+
+        <!-- します -->
+        <div class="row" data-rid="14">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="14" onclick="toggleMark(14,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">します</div>
+          <div class="transform">
+            <span class="base t">します</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">いたします</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('詳細については後ほどご連絡いたします。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="14">詳細については後ほどご連絡<em class="t">いたします</em>。</div>
+                <div class="ex-zh">详细内容稍后与您联系。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- います -->
+        <div class="row" data-rid="15">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="15" onclick="toggleMark(15,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">います</div>
+          <div class="transform">
+            <span class="base t">います</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">おります</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('私は東京本社に勤めております。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="15">私は東京本社に勤めて<em class="t">おります</em>。</div>
+                <div class="ex-zh">我目前就职于东京总公司。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 行きます／来ます -->
+        <div class="row" data-rid="16">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="16" onclick="toggleMark(16,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">行きます／来ます</div>
+          <div class="transform">
+            <span class="base t">行き・来ます</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">参ります</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('これより会場に参ります。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="16">これより会場に<em class="t">参ります</em>。</div>
+                <div class="ex-zh">我们现在前往会场。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 言います -->
+        <div class="row" data-rid="17">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="17" onclick="toggleMark(17,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">言います</div>
+          <div class="transform">
+            <span class="base t">言います</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">申します</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('弊社のことを簡単に申しますと……。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="17">弊社のことを簡単に<em class="t">申します</em>と……。</div>
+                <div class="ex-zh">简单来说我们公司……</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 知っています（事物） -->
+        <div class="row" data-rid="18">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="18" onclick="toggleMark(18,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">知っています（对事）</div>
+          <div class="transform">
+            <span class="base t">知っています</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">存じております</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('その件については私も存じております。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="18">その件については私も<em class="t">存じております</em>。</div>
+                <div class="ex-zh">关于那件事，我也知道。</div>
+              </div>
+            </div>
+          </div>
+          <div class="note">⚠️ 对人用「存じ上げております」（謙譲Ⅰ）<br>对事用「存じております」（丁重語）</div>
+        </div>
+
+        <!-- 思います -->
+        <div class="row" data-rid="19">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="19" onclick="toggleMark(19,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">思います</div>
+          <div class="transform">
+            <span class="base t">思います</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">存じます</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('このたびの件、誠に申し訳なく存じます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="19">このたびの件、誠に申し訳なく<em class="t">存じます</em>。</div>
+                <div class="ex-zh">对于此次之事，深感抱歉。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- です → でございます -->
+        <div class="row" data-rid="20">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="20" onclick="toggleMark(20,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">です（断定）</div>
+          <div class="transform">
+            <span class="base t">N／ナA です</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">でございます</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('応接室はあちらでございます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="20">応接室はあちら<em class="t">でございます</em>。</div>
+                <div class="ex-zh">会客室在那边。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- あります → ございます -->
+        <div class="row" data-rid="21">
+          <div class="mark-bar">
+            <button class="mark-btn" data-rid="21" onclick="toggleMark(21,this)">◎ 标记</button>
+          </div>
+          <div class="row-label">あります（存在）</div>
+          <div class="transform">
+            <span class="base t">N があります</span>
+            <span class="arrow">→</span>
+            <span class="keigo t">ございます</span>
+          </div>
+          <div class="ex-wrap t">
+            <div class="ex-row">
+              <button class="play-btn t" onclick="spk('喫煙所は廊下のつきあたりにございます。')"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+              <div class="ex-text">
+                <div class="ex-ja" data-num="21">喫煙所は廊下のつきあたりに<em class="t">ございます</em>。</div>
+                <div class="ex-zh">吸烟处在走廊尽头。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /page -->
+
+<script>
+// ── TTS ──
+function spk(t){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(t);
+  u.lang='ja-JP'; u.rate=0.88;
+  window.speechSynthesis.speak(u);
+}
+
+// ── 标注系统 ──
+var ANN_KEY = 'keigo_compare_ann';
+var toolbar = document.getElementById('annToolbar');
+var savedRange = null, activeExEl = null;
+
+function loadAnns(){ try{return JSON.parse(localStorage.getItem(ANN_KEY)||'{}');}catch(e){return{};} }
+function saveAnns(o){ localStorage.setItem(ANN_KEY,JSON.stringify(o)); }
+
+function applyAnns(){
+  var anns=loadAnns();
+  document.querySelectorAll('.ex-ja[data-num]').forEach(function(el){
+    var s=anns[el.dataset.num]; if(s) el.innerHTML=s;
+  });
+}
+
+function hideToolbar(){ toolbar.classList.remove('show'); savedRange=null; activeExEl=null; }
+
+document.addEventListener('mouseup',function(e){
+  if(toolbar.contains(e.target)) return;
+  var sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim()){hideToolbar();return;}
+  var range=sel.getRangeAt(0);
+  var exEl=null;
+  [range.startContainer,range.endContainer,range.commonAncestorContainer].forEach(function(c){
+    if(exEl) return;
+    var el=c.nodeType===3?c.parentElement:c;
+    if(el) exEl=el.closest('.ex-ja[data-num]');
+  });
+  if(!exEl){hideToolbar();return;}
+  var cr=document.createRange(); cr.selectNodeContents(exEl);
+  if(range.compareBoundaryPoints(Range.START_TO_START,cr)>0) cr.setStart(range.startContainer,range.startOffset);
+  if(range.compareBoundaryPoints(Range.END_TO_END,cr)<0) cr.setEnd(range.endContainer,range.endOffset);
+  if(cr.collapsed){hideToolbar();return;}
+  savedRange=cr; activeExEl=exEl;
+  var rect=range.getBoundingClientRect();
+  var top=rect.top-46, left=rect.left+rect.width/2-80;
+  if(top<4) top=rect.bottom+6;
+  left=Math.max(6,Math.min(left,document.documentElement.clientWidth-166));
+  toolbar.style.top=top+'px'; toolbar.style.left=left+'px';
+  toolbar.classList.add('show');
+});
+document.addEventListener('mousedown',function(e){if(!toolbar.contains(e.target))hideToolbar();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')hideToolbar();});
+
+function wrapRange(range,cls,exEl){
+  var nodes=[],walker=document.createTreeWalker(exEl,NodeFilter.SHOW_TEXT),n;
+  while((n=walker.nextNode())) try{if(range.intersectsNode(n))nodes.push(n);}catch(er){}
+  nodes.forEach(function(tn){
+    var s=tn===range.startContainer?range.startOffset:0;
+    var e2=tn===range.endContainer?range.endOffset:tn.length;
+    if(s>=e2)return;
+    var sp=document.createElement('span'); sp.className=cls; sp.textContent=tn.textContent.slice(s,e2);
+    var p=tn.parentNode;
+    if(s) p.insertBefore(document.createTextNode(tn.textContent.slice(0,s)),tn);
+    p.insertBefore(sp,tn);
+    if(e2<tn.length) p.insertBefore(document.createTextNode(tn.textContent.slice(e2)),tn);
+    p.removeChild(tn);
+  });
+}
+
+function applyAnnotation(type){
+  if(!savedRange||!activeExEl)return;
+  if(type==='clear'){
+    activeExEl.querySelectorAll('.hl-yellow,.hl-green,.ann-bold').forEach(function(sp){
+      while(sp.firstChild) sp.parentNode.insertBefore(sp.firstChild,sp);
+      sp.parentNode.removeChild(sp);
+    });
+    activeExEl.normalize();
+  } else {
+    var cls=type==='yl'?'hl-yellow':type==='gr'?'hl-green':'ann-bold';
+    wrapRange(savedRange,cls,activeExEl); activeExEl.normalize();
+  }
+  var anns=loadAnns(); anns[activeExEl.dataset.num]=activeExEl.innerHTML; saveAnns(anns);
+  window.getSelection().removeAllRanges(); hideToolbar();
+}
+
+document.getElementById('ann-yl').addEventListener('mousedown',function(e){e.preventDefault();applyAnnotation('yl');});
+document.getElementById('ann-gr').addEventListener('mousedown',function(e){e.preventDefault();applyAnnotation('gr');});
+document.getElementById('ann-bd').addEventListener('mousedown',function(e){e.preventDefault();applyAnnotation('bd');});
+document.getElementById('ann-cl').addEventListener('mousedown',function(e){e.preventDefault();applyAnnotation('clear');});
+
+
+// ── 标记系统 ──
+var M_KEY = 'keigo_compare_mark';
+function loadMarks(){ try{return JSON.parse(localStorage.getItem(M_KEY)||'{}');}catch(e){return{};} }
+function saveMarks(o){ localStorage.setItem(M_KEY, JSON.stringify(o)); }
+
+function toggleMark(rid, btn) {
+  var row = btn.closest('.row');
+  var m = loadMarks();
+  if (m[rid]) {
+    delete m[rid];
+    row.classList.remove('marked');
+    btn.classList.remove('active');
+  } else {
+    m[rid] = 1;
+    row.classList.add('marked');
+    btn.classList.add('active');
+  }
+  saveMarks(m);
+  updateStats();
+}
+
+function applyMarks() {
+  var m = loadMarks();
+  document.querySelectorAll('.row[data-rid]').forEach(function(row) {
+    var rid = row.dataset.rid;
+    var btn = row.querySelector('.mark-btn');
+    if (m[rid]) {
+      row.classList.add('marked');
+      if (btn) btn.classList.add('active');
+    } else {
+      row.classList.remove('marked');
+      if (btn) btn.classList.remove('active');
+    }
+  });
+  updateStats();
+}
+
+function updateStats() {
+  var m = loadMarks();
+  var total = document.querySelectorAll('.row[data-rid]').length;
+  var mk = Object.keys(m).length;
+  document.getElementById('stat-all').textContent = '共 ' + total + ' 项';
+  document.getElementById('stat-mk').textContent = '◎ 已标记 ' + mk;
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  applyAnns();
+  applyMarks();
+});
+
+</script>
+</body>
+</html>
